@@ -17,84 +17,26 @@
  */
 package com.netflix.hollow.api.sampling;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TimeSliceSamplingDirector extends HollowSamplingDirector {
 
-    private final List<SamplingStatusListener> listeners = new ArrayList<SamplingStatusListener>();
+  public TimeSliceSamplingDirector() {
+    this(1000, 1);
+  }
 
-    private int msOff;
-    private int msOn;
+  public TimeSliceSamplingDirector(int msOff, int msOn) {}
 
-    private boolean isInPlay = false;
+  @Override
+  public boolean shouldRecord() {
+    return false;
+  }
 
-    private boolean record = false;
+  public void startSampling() {}
 
-    public TimeSliceSamplingDirector() {
-        this(1000, 1);
-    }
+  public void setTiming(int msOff, int msOn) {}
 
-    public TimeSliceSamplingDirector(int msOff, int msOn) {
-        this.msOff = msOff;
-        this.msOn = msOn;
-    }
+  public void stopSampling() {}
 
-    @Override
-    public boolean shouldRecord() {
-        return record && !isUpdateThread();
-    }
+  private void notifyListeners() {}
 
-    public void startSampling() {
-        if(!isInPlay) {
-            isInPlay = true;
-            Thread t = new Thread(new SampleToggler());
-            t.setDaemon(true);
-            t.start();
-        }
-    }
-
-    public void setTiming(int msOff, int msOn) {
-        this.msOff = msOff;
-        this.msOn = msOn;
-    }
-
-    public void stopSampling() {
-        isInPlay = false;
-    }
-
-    private class SampleToggler implements Runnable {
-        @Override
-        public void run() {
-            while(isInPlay) {
-                record = false;
-                notifyListeners();
-                sleep(msOff);
-                record = isInPlay;
-                notifyListeners();
-                sleep(msOn);
-            }
-
-            record = false;
-            notifyListeners();
-        }
-
-        private void sleep(int ms) {
-            try {
-                Thread.sleep(ms);
-            } catch(InterruptedException ignore) { }
-        }
-    }
-
-    private void notifyListeners() {
-        for(int i=0;i<listeners.size();i++) {
-            listeners.get(i).samplingStatusChanged(record);
-        }
-    }
-
-    public void addSamplingStatusListener(SamplingStatusListener listener) {
-        listener.samplingStatusChanged(record);
-        listeners.add(listener);
-    }
-
+  public void addSamplingStatusListener(SamplingStatusListener listener) {}
 }

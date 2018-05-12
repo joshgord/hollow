@@ -20,82 +20,59 @@ package com.netflix.hollow.api.sampling;
 import com.netflix.hollow.core.read.filter.HollowFilterConfig;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class HollowMapSampler implements HollowSampler {
 
     public static final HollowMapSampler NULL_SAMPLER = new HollowMapSampler("", DisabledSamplingDirector.INSTANCE);
 
-    private final String typeName;
-
-    private HollowSamplingDirector director;
-
-    private long sizeSamples;
-    private long getSamples;
-    private long bucketRetrievalSamples;
-    private long iteratorSamples;
-
     public HollowMapSampler(String typeName, HollowSamplingDirector director) {
-        this.typeName = typeName;
-        this.director = director;
+
     }
 
     public void setSamplingDirector(HollowSamplingDirector director) {
-        if(!"".equals(typeName))
-            this.director = director;
+
     }
 
     public void setFieldSpecificSamplingDirector(HollowFilterConfig fieldSpec, HollowSamplingDirector director) {
-        if(!"".equals(typeName) && fieldSpec.doesIncludeType(typeName))
-            this.director = director;
+
     }
     
     @Override
     public void setUpdateThread(Thread t) {
-        director.setUpdateThread(t);
+
     }
 
     public void recordSize() {
-        if(director.shouldRecord())
-            sizeSamples++;
+
     }
 
     public void recordBucketRetrieval() {
-        if(director.shouldRecord())
-            bucketRetrievalSamples++;
+
     }
 
     public void recordGet() {
-        if(director.shouldRecord())
-            getSamples++;
+
     }
 
     public void recordIterator() {
-        if(director.shouldRecord())
-            iteratorSamples++;
+
     }
 
     @Override
     public boolean hasSampleResults() {
-        return sizeSamples > 0 || getSamples > 0 || iteratorSamples > 0 || bucketRetrievalSamples > 0;
+        return false;
     }
 
     @Override
     public Collection<SampleResult> getSampleResults() {
-        List<SampleResult> sampleResults = new ArrayList<SampleResult>(4);
-        sampleResults.add(new SampleResult(typeName + ".size()", sizeSamples));
-        sampleResults.add(new SampleResult(typeName + ".get()", getSamples));
-        sampleResults.add(new SampleResult(typeName + ".iterator()", iteratorSamples));
-        sampleResults.add(new SampleResult(typeName + ".bucketValue()", bucketRetrievalSamples));
-        return sampleResults;
+        return Collections.emptyList();
     }
 
     @Override
     public void reset() {
-        sizeSamples = 0;
-        getSamples = 0;
-        iteratorSamples = 0;
-        bucketRetrievalSamples = 0;
+
     }
 
 }

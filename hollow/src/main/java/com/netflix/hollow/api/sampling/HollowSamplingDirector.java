@@ -19,16 +19,11 @@ package com.netflix.hollow.api.sampling;
 
 public abstract class HollowSamplingDirector {
 
-    private Thread updateThread;
-    
-    public abstract boolean shouldRecord();
-    
-    public void setUpdateThread(Thread t) {
-        this.updateThread = t;
-    }
-    
-    protected boolean isUpdateThread() {
-        return updateThread != null && updateThread == Thread.currentThread();
-    }
+  public abstract boolean shouldRecord();
 
+  public void setUpdateThread(Thread t) {}
+
+  protected boolean isUpdateThread() {
+    return false;
+  }
 }

@@ -18,84 +18,36 @@
 package com.netflix.hollow.api.sampling;
 
 import com.netflix.hollow.core.read.filter.HollowFilterConfig;
-import com.netflix.hollow.core.read.filter.HollowFilterConfig.ObjectFilterConfig;
 import com.netflix.hollow.core.schema.HollowObjectSchema;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
 public class HollowObjectSampler implements HollowSampler {
 
-    public static final HollowObjectSampler NULL_SAMPLER = new HollowObjectSampler(new HollowObjectSchema("", 0), DisabledSamplingDirector.INSTANCE);
+  public static final HollowObjectSampler NULL_SAMPLER =
+      new HollowObjectSampler(new HollowObjectSchema("", 0), DisabledSamplingDirector.INSTANCE);
 
-    private final String typeName;
-    private final String fieldNames[];
-    private final long sampleCounts[];
-    private final HollowSamplingDirector samplingDirectors[];
+  public HollowObjectSampler(HollowObjectSchema schema, HollowSamplingDirector director) {}
 
-    public HollowObjectSampler(HollowObjectSchema schema, HollowSamplingDirector director) {
-        this.typeName = schema.getName();
-        this.sampleCounts = new long[schema.numFields()];
-        HollowSamplingDirector[] samplingDirectors = new HollowSamplingDirector[schema.numFields()];
-        Arrays.fill(samplingDirectors, director);
+  public void setSamplingDirector(HollowSamplingDirector director) {}
 
-        String fieldNames[] = new String[schema.numFields()];
-        for(int i=0;i<fieldNames.length;i++) {
-            fieldNames[i] = schema.getFieldName(i);
-        }
-        this.fieldNames = fieldNames;
-        this.samplingDirectors = samplingDirectors;
-    }
+  @Override
+  public void setFieldSpecificSamplingDirector(
+      HollowFilterConfig fieldSpec, HollowSamplingDirector director) {}
 
-    public void setSamplingDirector(HollowSamplingDirector director) {
-        if(!"".equals(typeName)) {
-            Arrays.fill(samplingDirectors, director);
-        }
-    }
+  public void setUpdateThread(Thread t) {}
 
-    @Override
-    public void setFieldSpecificSamplingDirector(HollowFilterConfig fieldSpec, HollowSamplingDirector director) {
-        ObjectFilterConfig typeConfig = fieldSpec.getObjectTypeConfig(typeName);
+  public void recordFieldAccess(int fieldPosition) {}
 
-        for(int i=0;i<fieldNames.length;i++) {
-            if(typeConfig.includesField(fieldNames[i])) {
-                samplingDirectors[i] = director;
-            }
-        }
-    }
+  public boolean hasSampleResults() {
+    return false;
+  }
 
-    public void setUpdateThread(Thread t) {
-        for(int i=0;i<samplingDirectors.length;i++)
-            samplingDirectors[i].setUpdateThread(t);
-    }
+  @Override
+  public Collection<SampleResult> getSampleResults() {
+    return Collections.emptyList();
+  }
 
-    public void recordFieldAccess(int fieldPosition) {
-        if(samplingDirectors[fieldPosition].shouldRecord())
-            sampleCounts[fieldPosition]++;
-    }
-
-    public boolean hasSampleResults() {
-        for(int i=0;i<sampleCounts.length;i++)
-            if(sampleCounts[i] > 0)
-                return true;
-        return false;
-    }
-
-    @Override
-    public Collection<SampleResult> getSampleResults() {
-        List<SampleResult> sampleResults = new ArrayList<SampleResult>(sampleCounts.length);
-
-        for(int i=0;i<sampleCounts.length;i++) {
-            sampleResults.add(new SampleResult(typeName + "." + fieldNames[i], sampleCounts[i]));
-        }
-
-        return sampleResults;
-    }
-
-    @Override
-    public void reset() {
-        Arrays.fill(sampleCounts, 0L);
-    }
-
+  @Override
+  public void reset() {}
 }
