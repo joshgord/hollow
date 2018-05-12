@@ -41,7 +41,7 @@ public class HollowSetProxyDataAccess extends HollowTypeProxyDataAccess implemen
 
     @Override
     public int size(int ordinal) {
-        return currentDataAccess().size(ordinal);
+        return ((HollowSetTypeDataAccess) currentDataAccess).size(ordinal);
     }
 
     @Override
@@ -51,36 +51,32 @@ public class HollowSetProxyDataAccess extends HollowTypeProxyDataAccess implemen
 
     @Override
     public HollowSetSchema getSchema() {
-        return currentDataAccess().getSchema();
+        return ((HollowSetTypeDataAccess) currentDataAccess).getSchema();
     }
 
     @Override
     public boolean contains(int ordinal, int value) {
-        return currentDataAccess().contains(ordinal, value);
+        return ((HollowSetTypeDataAccess) currentDataAccess).contains(ordinal, value);
     }
 
     @Override
     public boolean contains(int ordinal, int value, int hashCode) {
-        return currentDataAccess().contains(ordinal, value, hashCode);
+        return ((HollowSetTypeDataAccess) currentDataAccess).contains(ordinal, value, hashCode);
     }
 
     @Override
     public int findElement(int ordinal, Object... hashKey) {
-        return currentDataAccess().findElement(ordinal, hashKey);
+        return ((HollowSetTypeDataAccess) currentDataAccess).findElement(ordinal, hashKey);
     }
     
     @Override
     public int relativeBucketValue(int ordinal, int bucketIndex) {
-        return currentDataAccess().relativeBucketValue(ordinal, bucketIndex);
+        return ((HollowSetTypeDataAccess) currentDataAccess).relativeBucketValue(ordinal, bucketIndex);
     }
 
     @Override
     public HollowOrdinalIterator potentialMatchOrdinalIterator(int ordinal, int hashCode) {
         return new PotentialMatchHollowSetOrdinalIterator(ordinal, this, hashCode);
-    }
-
-    private HollowSetTypeDataAccess currentDataAccess() {
-        return (HollowSetTypeDataAccess)currentDataAccess;
     }
 
 }

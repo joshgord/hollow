@@ -22,6 +22,7 @@ import com.netflix.hollow.api.sampling.SampleResult;
 import com.netflix.hollow.core.read.dataaccess.HollowTypeDataAccess;
 import com.netflix.hollow.core.read.filter.HollowFilterConfig;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  *  A Hollow Type API provides methods for accessing data in Hollow records without creating
@@ -61,7 +62,7 @@ public abstract class HollowTypeAPI {
     }
 
     public Collection<SampleResult> getAccessSampleResults() {
-        return typeDataAccess.getSampler().getSampleResults();
+        return Collections.emptyList();
     }
 
 }

@@ -35,7 +35,7 @@ public class HollowListProxyDataAccess extends HollowTypeProxyDataAccess impleme
 
     @Override
     public int size(int ordinal) {
-        return currentDataAccess().size(ordinal);
+        return ((HollowListTypeDataAccess) currentDataAccess).size(ordinal);
     }
 
     @Override
@@ -45,15 +45,11 @@ public class HollowListProxyDataAccess extends HollowTypeProxyDataAccess impleme
 
     @Override
     public HollowListSchema getSchema() {
-        return currentDataAccess().getSchema();
+        return ((HollowListTypeDataAccess) currentDataAccess).getSchema();
     }
 
     @Override
     public int getElementOrdinal(int ordinal, int listIndex) {
-        return currentDataAccess().getElementOrdinal(ordinal, listIndex);
-    }
-
-    private HollowListTypeDataAccess currentDataAccess() {
-        return (HollowListTypeDataAccess)currentDataAccess;
+        return ((HollowListTypeDataAccess) currentDataAccess).getElementOrdinal(ordinal, listIndex);
     }
 }
