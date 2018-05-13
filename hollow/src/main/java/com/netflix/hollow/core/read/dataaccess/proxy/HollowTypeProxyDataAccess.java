@@ -17,6 +17,7 @@
  */
 package com.netflix.hollow.core.read.dataaccess.proxy;
 
+import com.netflix.hollow.api.sampling.DisabledSampler;
 import com.netflix.hollow.api.sampling.HollowSampler;
 import com.netflix.hollow.api.sampling.HollowSamplingDirector;
 import com.netflix.hollow.core.read.dataaccess.HollowDataAccess;
@@ -69,7 +70,7 @@ public abstract class HollowTypeProxyDataAccess implements HollowTypeDataAccess 
 
     @Override
     public HollowSampler getSampler() {
-        return currentDataAccess.getSampler();
+        return DisabledSampler.getInstance();
     }
 
 }

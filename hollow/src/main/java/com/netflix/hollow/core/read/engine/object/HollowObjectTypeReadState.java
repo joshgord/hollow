@@ -84,7 +84,7 @@ public class HollowObjectTypeReadState extends HollowTypeReadState implements Ho
     public void readSnapshot(DataInputStream dis, ArraySegmentRecycler memoryRecycler) throws IOException {
         if(shards.length > 1)
             maxOrdinal = VarInt.readVInt(dis);
-        
+
         for(int i=0;i<shards.length;i++) {
             HollowObjectTypeDataElements snapshotData = new HollowObjectTypeDataElements(getSchema(), memoryRecycler);
             snapshotData.readSnapshot(dis, unfilteredSchema);
@@ -135,67 +135,56 @@ public class HollowObjectTypeReadState extends HollowTypeReadState implements Ho
 
     @Override
     public boolean isNull(int ordinal, int fieldIndex) {
-        sampler.recordFieldAccess(fieldIndex);
         return shards[ordinal & shardNumberMask].isNull(ordinal >> shardOrdinalShift, fieldIndex);
     }
 
     @Override
     public int readOrdinal(int ordinal, int fieldIndex) {
-        sampler.recordFieldAccess(fieldIndex);
         return shards[ordinal & shardNumberMask].readOrdinal(ordinal >> shardOrdinalShift, fieldIndex);
     }
 
     @Override
     public int readInt(int ordinal, int fieldIndex) {
-        sampler.recordFieldAccess(fieldIndex);
         return shards[ordinal & shardNumberMask].readInt(ordinal >> shardOrdinalShift, fieldIndex);
     }
 
     @Override
     public float readFloat(int ordinal, int fieldIndex) {
-        sampler.recordFieldAccess(fieldIndex);
         return shards[ordinal & shardNumberMask].readFloat(ordinal >> shardOrdinalShift, fieldIndex);
     }
 
     @Override
     public double readDouble(int ordinal, int fieldIndex) {
-        sampler.recordFieldAccess(fieldIndex);
         return shards[ordinal & shardNumberMask].readDouble(ordinal >> shardOrdinalShift, fieldIndex);
     }
 
     @Override
     public long readLong(int ordinal, int fieldIndex) {
-        sampler.recordFieldAccess(fieldIndex);
         return shards[ordinal & shardNumberMask].readLong(ordinal >> shardOrdinalShift, fieldIndex);
     }
 
     @Override
     public Boolean readBoolean(int ordinal, int fieldIndex) {
-        sampler.recordFieldAccess(fieldIndex);
         return shards[ordinal & shardNumberMask].readBoolean(ordinal >> shardOrdinalShift, fieldIndex);
     }
 
     @Override
     public byte[] readBytes(int ordinal, int fieldIndex) {
-        sampler.recordFieldAccess(fieldIndex);
         return shards[ordinal & shardNumberMask].readBytes(ordinal >> shardOrdinalShift, fieldIndex);
     }
 
     @Override
     public String readString(int ordinal, int fieldIndex) {
-        sampler.recordFieldAccess(fieldIndex);
         return shards[ordinal & shardNumberMask].readString(ordinal >> shardOrdinalShift, fieldIndex);
     }
 
     @Override
     public boolean isStringFieldEqual(int ordinal, int fieldIndex, String testValue) {
-        sampler.recordFieldAccess(fieldIndex);
         return shards[ordinal & shardNumberMask].isStringFieldEqual(ordinal >> shardOrdinalShift, fieldIndex, testValue);
     }
 
     @Override
     public int findVarLengthFieldHashCode(int ordinal, int fieldIndex) {
-        sampler.recordFieldAccess(fieldIndex);
         return shards[ordinal & shardNumberMask].findVarLengthFieldHashCode(ordinal >> shardOrdinalShift, fieldIndex);
     }
 

@@ -247,15 +247,11 @@ public class HollowReadStateEngine implements HollowStateEngine, HollowDataAcces
 
     @Override
     public void resetSampling() {
-        for(Map.Entry<String, HollowTypeReadState> entry : typeStates.entrySet())
-            entry.getValue().getSampler().reset();
+
     }
 
     @Override
     public boolean hasSampleResults() {
-        for(Map.Entry<String, HollowTypeReadState> entry : typeStates.entrySet())
-            if(entry.getValue().getSampler().hasSampleResults())
-                return true;
         return false;
     }
 

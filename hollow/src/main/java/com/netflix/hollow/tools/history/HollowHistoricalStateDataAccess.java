@@ -175,15 +175,11 @@ public class HollowHistoricalStateDataAccess implements HollowDataAccess {
 
     @Override
     public void resetSampling() {
-        for(Map.Entry<String, HollowHistoricalTypeDataAccess> entry : typeDataAccessMap.entrySet())
-            entry.getValue().getSampler().reset();
+
     }
 
     @Override
     public boolean hasSampleResults() {
-        for(Map.Entry<String, HollowHistoricalTypeDataAccess> entry : typeDataAccessMap.entrySet())
-            if(entry.getValue().getSampler().hasSampleResults())
-                return true;
         return false;
     }
 
