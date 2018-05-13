@@ -33,7 +33,7 @@ public class HollowObjectProxyDataAccess extends HollowTypeProxyDataAccess imple
     }
 
     public void setCurrentDataAccess(HollowTypeDataAccess currentDataAccess) {
-        this.currentDataAccess = (HollowObjectTypeDataAccess) currentDataAccess;
+        this.currentDataAccess = currentDataAccess;
     }
 
     @Override
@@ -95,5 +95,4 @@ public class HollowObjectProxyDataAccess extends HollowTypeProxyDataAccess imple
     public int findVarLengthFieldHashCode(int ordinal, int fieldIndex) {
         return ((HollowObjectTypeDataAccess) currentDataAccess).findVarLengthFieldHashCode(ordinal, fieldIndex);
     }
-
 }

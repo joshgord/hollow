@@ -43,32 +43,24 @@ public class HollowHistoricalMapDataAccess extends HollowHistoricalTypeDataAcces
 
     @Override
     public int size(int ordinal) {
-        sampler().recordSize();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowMapTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).size(ordinal);
-        return removedRecords().size(getMappedOrdinal(ordinal));
+        return ((HollowMapTypeReadState) removedRecords).size(getMappedOrdinal(ordinal));
     }
 
     @Override
     public int get(int ordinal, int keyOrdinal) {
-        sampler().recordGet();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowMapTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).get(ordinal, keyOrdinal);
-        return removedRecords().get(getMappedOrdinal(ordinal), keyOrdinal);
+        return ((HollowMapTypeReadState) removedRecords).get(getMappedOrdinal(ordinal), keyOrdinal);
     }
 
     @Override
     public int get(int ordinal, int keyOrdinal, int hashCode) {
-        sampler().recordGet();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowMapTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).get(ordinal, keyOrdinal, hashCode);
-        return removedRecords().get(getMappedOrdinal(ordinal), keyOrdinal, hashCode);
+        return ((HollowMapTypeReadState) removedRecords)
+            .get(getMappedOrdinal(ordinal), keyOrdinal, hashCode);
     }
     
     @Override
@@ -83,9 +75,6 @@ public class HollowHistoricalMapDataAccess extends HollowHistoricalTypeDataAcces
 
     @Override
     public long findEntry(int ordinal, Object... hashKey) {
-        sampler().recordGet();
-        recordStackTrace();
-        
         if(keyMatcher == null)
             return -1L;
         
@@ -117,42 +106,28 @@ public class HollowHistoricalMapDataAccess extends HollowHistoricalTypeDataAcces
 
     @Override
     public HollowMapEntryOrdinalIterator potentialMatchOrdinalIterator(int ordinal, int hashCode) {
-        sampler().recordIterator();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowMapTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).potentialMatchOrdinalIterator(ordinal, hashCode);
-        return removedRecords().potentialMatchOrdinalIterator(getMappedOrdinal(ordinal), hashCode);
+        return ((HollowMapTypeReadState) removedRecords)
+            .potentialMatchOrdinalIterator(getMappedOrdinal(ordinal), hashCode);
     }
 
     @Override
     public HollowMapEntryOrdinalIterator ordinalIterator(int ordinal) {
-        sampler().recordIterator();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowMapTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).ordinalIterator(ordinal);
-        return removedRecords().ordinalIterator(getMappedOrdinal(ordinal));
+        return ((HollowMapTypeReadState) removedRecords).ordinalIterator(getMappedOrdinal(ordinal));
     }
 
     @Override
     public long relativeBucket(int ordinal, int bucketIndex) {
-        sampler().recordBucketRetrieval();
-        recordStackTrace();
 
         if(!ordinalIsPresent(ordinal))
             return ((HollowMapTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).relativeBucket(ordinal, bucketIndex);
-        return removedRecords().relativeBucket(getMappedOrdinal(ordinal), bucketIndex);
+        return ((HollowMapTypeReadState) removedRecords)
+            .relativeBucket(getMappedOrdinal(ordinal), bucketIndex);
     }
 
-    private HollowMapTypeReadState removedRecords() {
-        return (HollowMapTypeReadState) removedRecords;
-    }
-
-    private HollowMapSampler sampler() {
-        return (HollowMapSampler) sampler;
-    }
-    
     void buildKeyMatcher() {
         PrimaryKey hashKey = getSchema().getHashKey();
         if(hashKey != null)

@@ -227,7 +227,6 @@ public class HollowObjectTypeReadState extends HollowTypeReadState implements Ho
 
     @Override
     public void ignoreUpdateThreadForSampling(Thread t) {
-        sampler.setUpdateThread(t);
     }
     
     HollowObjectTypeDataElements[] currentDataElements() {

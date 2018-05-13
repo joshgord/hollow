@@ -18,6 +18,7 @@
 package com.netflix.hollow.tools.history;
 
 import com.netflix.hollow.api.client.StackTraceRecorder;
+import com.netflix.hollow.api.sampling.DisabledSampler;
 import com.netflix.hollow.api.sampling.HollowSampler;
 import com.netflix.hollow.api.sampling.HollowSamplingDirector;
 import com.netflix.hollow.core.read.dataaccess.HollowTypeDataAccess;
@@ -32,8 +33,6 @@ public abstract class HollowHistoricalTypeDataAccess implements HollowTypeDataAc
     protected final HollowTypeReadState removedRecords;
     protected final IntMap ordinalRemap;
 
-    protected final HollowSampler sampler;
-
     public HollowHistoricalTypeDataAccess(HollowHistoricalStateDataAccess dataAccess, HollowTypeReadState removedRecords, HollowSampler sampler) {
         IntMap ordinalRemap = null;
         if(dataAccess.getOrdinalMapping() instanceof IntMapOrdinalRemapper) {
@@ -42,7 +41,6 @@ public abstract class HollowHistoricalTypeDataAccess implements HollowTypeDataAc
         this.dataAccess = dataAccess;
         this.ordinalRemap = ordinalRemap;
         this.removedRecords = removedRecords;
-        this.sampler = sampler;
     }
 
     @Override
@@ -70,28 +68,22 @@ public abstract class HollowHistoricalTypeDataAccess implements HollowTypeDataAc
 
     @Override
     public void setSamplingDirector(HollowSamplingDirector director) {
-        sampler.setSamplingDirector(director);
+
     }
 
     @Override
     public void setFieldSpecificSamplingDirector(HollowFilterConfig fieldSpec, HollowSamplingDirector director) {
-        sampler.setFieldSpecificSamplingDirector(fieldSpec, director);
+
     }
     
     @Override
     public void ignoreUpdateThreadForSampling(Thread t) {
-        sampler.setUpdateThread(t);
+
     }
 
     @Override
     public HollowSampler getSampler() {
-        return sampler;
-    }
-
-    protected void recordStackTrace() {
-        StackTraceRecorder recorder = dataAccess.getStackTraceRecorder();
-        if(recorder != null)
-            recorder.recordStackTrace(2);
+        return DisabledSampler.getInstance();
     }
 
     HollowTypeReadState getRemovedRecords() {

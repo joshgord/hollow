@@ -33,48 +33,32 @@ public class HollowHistoricalListDataAccess extends HollowHistoricalTypeDataAcce
 
     @Override
     public HollowListSchema getSchema() {
-        return removedRecords().getSchema();
+        return ((HollowListTypeReadState) removedRecords).getSchema();
     }
 
     @Override
     public int getElementOrdinal(int ordinal, int listIndex) {
-        sampler().recordGet();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowListTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).getElementOrdinal(ordinal, listIndex);
 
-        return removedRecords().getElementOrdinal(getMappedOrdinal(ordinal), listIndex);
+        return ((HollowListTypeReadState) removedRecords)
+            .getElementOrdinal(getMappedOrdinal(ordinal), listIndex);
     }
 
     @Override
     public int size(int ordinal) {
-        sampler().recordSize();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowListTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).size(ordinal);
 
-        return removedRecords().size(getMappedOrdinal(ordinal));
+        return ((HollowListTypeReadState) removedRecords).size(getMappedOrdinal(ordinal));
     }
 
     @Override
     public HollowOrdinalIterator ordinalIterator(int ordinal) {
-        sampler().recordIterator();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowListTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).ordinalIterator(ordinal);
 
-        return removedRecords().ordinalIterator(getMappedOrdinal(ordinal));
-    }
-
-    private HollowListTypeReadState removedRecords() {
-        return (HollowListTypeReadState) removedRecords;
-    }
-
-    private HollowListSampler sampler() {
-        return (HollowListSampler) sampler;
+        return ((HollowListTypeReadState) removedRecords).ordinalIterator(getMappedOrdinal(ordinal));
     }
 
 }

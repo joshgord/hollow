@@ -25,9 +25,6 @@ import java.util.List;
 
 public class HollowListSampler implements HollowSampler {
 
-  public static final HollowListSampler NULL_SAMPLER =
-      new HollowListSampler("", DisabledSamplingDirector.INSTANCE);
-
   public HollowListSampler(String typeName, HollowSamplingDirector director) {}
 
   public void setSamplingDirector(HollowSamplingDirector director) {}

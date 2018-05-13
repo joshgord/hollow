@@ -208,7 +208,7 @@ public class HollowSetTypeReadState extends HollowCollectionTypeReadState implem
 
     @Override
     public void ignoreUpdateThreadForSampling(Thread t) {
-        sampler.setUpdateThread(t);
+
     }
 
     @Override

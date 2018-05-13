@@ -133,20 +133,16 @@ public class HollowListTypeReadState extends HollowCollectionTypeReadState imple
 
     @Override
     public int getElementOrdinal(int ordinal, int listIndex) {
-        sampler.recordGet();
         return shards[ordinal & shardNumberMask].getElementOrdinal(ordinal >> shardOrdinalShift, listIndex);
     }
 
     @Override
     public int size(int ordinal) {
-        sampler.recordSize();
         return shards[ordinal & shardNumberMask].size(ordinal >> shardOrdinalShift);
     }
 
     @Override
     public HollowOrdinalIterator ordinalIterator(int ordinal) {
-        sampler.recordIterator();
-
         return new HollowListOrdinalIterator(ordinal, this);
     }
 
@@ -157,17 +153,17 @@ public class HollowListTypeReadState extends HollowCollectionTypeReadState imple
 
     @Override
     public void setSamplingDirector(HollowSamplingDirector director) {
-        sampler.setSamplingDirector(director);
+
     }
     
     @Override
     public void setFieldSpecificSamplingDirector(HollowFilterConfig fieldSpec, HollowSamplingDirector director) {
-        sampler.setFieldSpecificSamplingDirector(fieldSpec, director);
+
     }
 
     @Override
     public void ignoreUpdateThreadForSampling(Thread t) {
-        sampler.setUpdateThread(t);
+
     }
 
     @Override

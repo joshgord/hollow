@@ -92,8 +92,7 @@ public abstract class HollowObjectTypeAPI extends HollowTypeAPI {
     
     @Override
     public void ignoreUpdateThreadForSampling(Thread t) {
-        super.ignoreUpdateThreadForSampling(t);
-        boxedFieldAccessSampler.setUpdateThread(t);
+
     }
 
     protected MissingDataHandler missingDataHandler() {

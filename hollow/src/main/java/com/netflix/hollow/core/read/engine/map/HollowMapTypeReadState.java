@@ -230,7 +230,6 @@ public class HollowMapTypeReadState extends HollowTypeReadState implements Hollo
 
     @Override
     public void ignoreUpdateThreadForSampling(Thread t) {
-        sampler.setUpdateThread(t);
     }
 
     @Override

@@ -38,34 +38,25 @@ public class HollowHistoricalSetDataAccess extends HollowHistoricalTypeDataAcces
 
     @Override
     public HollowSetSchema getSchema() {
-        return removedRecords().getSchema();
+        return ((HollowSetTypeReadState) removedRecords).getSchema();
     }
 
     @Override
     public int size(int ordinal) {
-        sampler().recordSize();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowSetTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).size(ordinal);
-        return removedRecords().size(getMappedOrdinal(ordinal));
+        return ((HollowSetTypeReadState) removedRecords).size(getMappedOrdinal(ordinal));
     }
     
     @Override
     public boolean contains(int ordinal, int value) {
-        sampler().recordGet();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowSetTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).contains(ordinal, value);
-        return removedRecords().contains(getMappedOrdinal(ordinal), value);
+        return ((HollowSetTypeReadState) removedRecords).contains(getMappedOrdinal(ordinal), value);
     }
     
     @Override
     public int findElement(int ordinal, Object... hashKey) {
-        sampler().recordGet();
-        recordStackTrace();
-        
         if(keyMatcher == null)
             return -1;
         
@@ -95,51 +86,35 @@ public class HollowHistoricalSetDataAccess extends HollowHistoricalTypeDataAcces
 
     @Override
     public boolean contains(int ordinal, int value, int hashCode) {
-        sampler().recordGet();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowSetTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).contains(ordinal, value, hashCode);
-        return removedRecords().contains(getMappedOrdinal(ordinal), value, hashCode);
+        return ((HollowSetTypeReadState) removedRecords)
+            .contains(getMappedOrdinal(ordinal), value, hashCode);
     }
 
     @Override
     public int relativeBucketValue(int ordinal, int bucketIndex) {
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowSetTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).relativeBucketValue(ordinal, bucketIndex);
-        return removedRecords().relativeBucketValue(getMappedOrdinal(ordinal), bucketIndex);
+        return ((HollowSetTypeReadState) removedRecords)
+            .relativeBucketValue(getMappedOrdinal(ordinal), bucketIndex);
     }
 
     @Override
     public HollowOrdinalIterator potentialMatchOrdinalIterator(int ordinal, int hashCode) {
-        sampler().recordIterator();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowSetTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).potentialMatchOrdinalIterator(ordinal, hashCode);
-        return removedRecords().potentialMatchOrdinalIterator(getMappedOrdinal(ordinal), hashCode);
+        return ((HollowSetTypeReadState) removedRecords)
+            .potentialMatchOrdinalIterator(getMappedOrdinal(ordinal), hashCode);
     }
 
     @Override
     public HollowOrdinalIterator ordinalIterator(int ordinal) {
-        sampler().recordIterator();
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowSetTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).ordinalIterator(ordinal);
-        return removedRecords().ordinalIterator(getMappedOrdinal(ordinal));
+        return ((HollowSetTypeReadState) removedRecords).ordinalIterator(getMappedOrdinal(ordinal));
     }
 
-    private HollowSetTypeReadState removedRecords() {
-        return (HollowSetTypeReadState) removedRecords;
-    }
-
-    private HollowSetSampler sampler() {
-        return (HollowSetSampler) sampler;
-    }
-    
     void buildKeyMatcher() {
         PrimaryKey hashKey = getSchema().getHashKey();
         if(hashKey != null)
