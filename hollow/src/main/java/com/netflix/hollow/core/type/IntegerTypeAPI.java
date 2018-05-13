@@ -44,7 +44,6 @@ public class IntegerTypeAPI extends HollowObjectTypeAPI {
         if(fieldIndex[0] == -1) {
             i = missingDataHandler().handleInt("Integer", ordinal, "value");
         } else {
-            boxedFieldAccessSampler.recordFieldAccess(fieldIndex[0]);
             i = getTypeDataAccess().readInt(ordinal, fieldIndex[0]);
         }
         if(i == Integer.MIN_VALUE)

@@ -44,7 +44,6 @@ public class FloatTypeAPI extends HollowObjectTypeAPI {
         if(fieldIndex[0] == -1) {
             f = missingDataHandler().handleFloat("Float", ordinal, "value");
         } else {
-            boxedFieldAccessSampler.recordFieldAccess(fieldIndex[0]);
             f = getTypeDataAccess().readFloat(ordinal, fieldIndex[0]);
         }        return Float.isNaN(f) ? null : Float.valueOf(f);
     }

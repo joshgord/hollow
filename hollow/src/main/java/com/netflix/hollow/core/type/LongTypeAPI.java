@@ -44,7 +44,6 @@ public class LongTypeAPI extends HollowObjectTypeAPI {
         if(fieldIndex[0] == -1) {
             l = missingDataHandler().handleLong("Long", ordinal, "value");
         } else {
-            boxedFieldAccessSampler.recordFieldAccess(fieldIndex[0]);
             l = getTypeDataAccess().readLong(ordinal, fieldIndex[0]);
         }
         if(l == Long.MIN_VALUE)

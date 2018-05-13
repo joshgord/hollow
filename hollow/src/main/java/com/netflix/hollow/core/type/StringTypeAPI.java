@@ -36,7 +36,6 @@ public class StringTypeAPI extends HollowObjectTypeAPI {
     public String getValue(int ordinal) {
         if(fieldIndex[0] == -1)
             return missingDataHandler().handleString("String", ordinal, "value");
-        boxedFieldAccessSampler.recordFieldAccess(fieldIndex[0]);
         return getTypeDataAccess().readString(ordinal, fieldIndex[0]);
     }
 

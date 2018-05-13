@@ -44,7 +44,6 @@ public class DoubleTypeAPI extends HollowObjectTypeAPI {
         if(fieldIndex[0] == -1) {
             d = missingDataHandler().handleDouble("Double", ordinal, "value");
         } else {
-            boxedFieldAccessSampler.recordFieldAccess(fieldIndex[0]);
             d = getTypeDataAccess().readDouble(ordinal, fieldIndex[0]);
         }
         return Double.isNaN(d) ? null : Double.valueOf(d);

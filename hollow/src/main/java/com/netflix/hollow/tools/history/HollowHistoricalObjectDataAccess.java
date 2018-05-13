@@ -32,125 +32,94 @@ public class HollowHistoricalObjectDataAccess extends HollowHistoricalTypeDataAc
 
     @Override
     public HollowObjectSchema getSchema() {
-        return removedRecords().getSchema();
+        return ((HollowObjectTypeReadState) removedRecords).getSchema();
     }
 
     @Override
     public boolean isNull(int ordinal, int fieldIndex) {
-        sampler().recordFieldAccess(fieldIndex);
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowObjectTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).isNull(ordinal, fieldIndex);
-        return removedRecords().isNull(getMappedOrdinal(ordinal), fieldIndex);
+        return ((HollowObjectTypeReadState) removedRecords)
+            .isNull(getMappedOrdinal(ordinal), fieldIndex);
     }
 
     @Override
     public int readOrdinal(int ordinal, int fieldIndex) {
-        sampler().recordFieldAccess(fieldIndex);
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowObjectTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).readOrdinal(ordinal, fieldIndex);
-        return removedRecords().readOrdinal(getMappedOrdinal(ordinal), fieldIndex);
+        return ((HollowObjectTypeReadState) removedRecords)
+            .readOrdinal(getMappedOrdinal(ordinal), fieldIndex);
     }
 
     @Override
     public int readInt(int ordinal, int fieldIndex) {
-        sampler().recordFieldAccess(fieldIndex);
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowObjectTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).readInt(ordinal, fieldIndex);
-        return removedRecords().readInt(getMappedOrdinal(ordinal), fieldIndex);
+        return ((HollowObjectTypeReadState) removedRecords)
+            .readInt(getMappedOrdinal(ordinal), fieldIndex);
     }
 
     @Override
     public float readFloat(int ordinal, int fieldIndex) {
-        sampler().recordFieldAccess(fieldIndex);
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowObjectTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).readFloat(ordinal, fieldIndex);
-        return removedRecords().readFloat(getMappedOrdinal(ordinal), fieldIndex);
+        return ((HollowObjectTypeReadState) removedRecords)
+            .readFloat(getMappedOrdinal(ordinal), fieldIndex);
     }
 
     @Override
     public double readDouble(int ordinal, int fieldIndex) {
-        sampler().recordFieldAccess(fieldIndex);
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowObjectTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).readDouble(ordinal, fieldIndex);
-        return removedRecords().readDouble(getMappedOrdinal(ordinal), fieldIndex);
+        return ((HollowObjectTypeReadState) removedRecords)
+            .readDouble(getMappedOrdinal(ordinal), fieldIndex);
     }
 
     @Override
     public long readLong(int ordinal, int fieldIndex) {
-        sampler().recordFieldAccess(fieldIndex);
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowObjectTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).readLong(ordinal, fieldIndex);
-        return removedRecords().readLong(getMappedOrdinal(ordinal), fieldIndex);
+        return ((HollowObjectTypeReadState) removedRecords)
+            .readLong(getMappedOrdinal(ordinal), fieldIndex);
     }
 
     @Override
     public Boolean readBoolean(int ordinal, int fieldIndex) {
-        sampler().recordFieldAccess(fieldIndex);
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowObjectTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).readBoolean(ordinal, fieldIndex);
-        return removedRecords().readBoolean(getMappedOrdinal(ordinal), fieldIndex);
+        return ((HollowObjectTypeReadState) removedRecords)
+            .readBoolean(getMappedOrdinal(ordinal), fieldIndex);
     }
 
     @Override
     public byte[] readBytes(int ordinal, int fieldIndex) {
-        sampler().recordFieldAccess(fieldIndex);
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowObjectTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).readBytes(ordinal, fieldIndex);
-        return removedRecords().readBytes(getMappedOrdinal(ordinal), fieldIndex);
+        return ((HollowObjectTypeReadState) removedRecords)
+            .readBytes(getMappedOrdinal(ordinal), fieldIndex);
     }
 
     @Override
     public String readString(int ordinal, int fieldIndex) {
-        sampler().recordFieldAccess(fieldIndex);
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowObjectTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).readString(ordinal, fieldIndex);
-        return removedRecords().readString(getMappedOrdinal(ordinal), fieldIndex);
+        return ((HollowObjectTypeReadState) removedRecords)
+            .readString(getMappedOrdinal(ordinal), fieldIndex);
     }
 
     @Override
     public boolean isStringFieldEqual(int ordinal, int fieldIndex, String testValue) {
-        sampler().recordFieldAccess(fieldIndex);
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowObjectTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).isStringFieldEqual(ordinal, fieldIndex, testValue);
-        return removedRecords().isStringFieldEqual(getMappedOrdinal(ordinal), fieldIndex, testValue);
+        return ((HollowObjectTypeReadState) removedRecords)
+            .isStringFieldEqual(getMappedOrdinal(ordinal), fieldIndex, testValue);
     }
 
     @Override
     public int findVarLengthFieldHashCode(int ordinal, int fieldIndex) {
-        sampler().recordFieldAccess(fieldIndex);
-        recordStackTrace();
-
         if(!ordinalIsPresent(ordinal))
             return ((HollowObjectTypeDataAccess)dataAccess.getTypeDataAccess(getSchema().getName(), ordinal)).findVarLengthFieldHashCode(ordinal, fieldIndex);
-        return removedRecords().findVarLengthFieldHashCode(getMappedOrdinal(ordinal), fieldIndex);
+        return ((HollowObjectTypeReadState) removedRecords)
+            .findVarLengthFieldHashCode(getMappedOrdinal(ordinal), fieldIndex);
     }
-
-    private HollowObjectTypeReadState removedRecords() {
-        return (HollowObjectTypeReadState) removedRecords;
-    }
-
-    private HollowObjectSampler sampler() {
-        return (HollowObjectSampler) sampler;
-    }
-
 }
