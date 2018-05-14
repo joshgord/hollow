@@ -278,7 +278,7 @@ public class HollowPrimaryKeyIndex implements HollowTypeStateListener {
         return ordinal;
     }
 
-    private int readOrdinal(PrimaryKeyIndexHashTable hashTable, int bucket) {
+    private static int readOrdinal(PrimaryKeyIndexHashTable hashTable, int bucket) {
         return (int)hashTable.hashTable.getElementValue((long)hashTable.bitsPerElement * (long)bucket, hashTable.bitsPerElement) - 1;
     }
 
@@ -484,7 +484,7 @@ public class HollowPrimaryKeyIndex implements HollowTypeStateListener {
         memoryRecycler.swap();
     }
 
-    private boolean bucketInRange(int fromBucket, int toBucket, int testBucket) {
+    private static boolean bucketInRange(int fromBucket, int toBucket, int testBucket) {
         if(toBucket > fromBucket) {
             return testBucket > fromBucket && testBucket <= toBucket;
         } else {
@@ -572,9 +572,7 @@ public class HollowPrimaryKeyIndex implements HollowTypeStateListener {
             prevOrdinal = previousOrdinals.nextSetBit(prevOrdinal + 1);
         }
 
-        if(removedRecords > prevCardinality * 0.1d)
-            return false;
-        return true;
+      return !(removedRecords > prevCardinality * 0.1d);
     }
 
     private static class PrimaryKeyIndexHashTable {

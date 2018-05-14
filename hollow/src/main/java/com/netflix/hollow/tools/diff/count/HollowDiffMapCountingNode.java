@@ -146,7 +146,8 @@ public class HollowDiffMapCountingNode extends HollowDiffCountingNode {
         }
     }
 
-    private void fillListsWithReferencedOrdinals(HollowMapTypeReadState typeState, int ordinal, IntList fillKeyList, IntList fillValueList) {
+    private static void fillListsWithReferencedOrdinals(HollowMapTypeReadState typeState,
+        int ordinal, IntList fillKeyList, IntList fillValueList) {
         HollowMapEntryOrdinalIterator iter = typeState.ordinalIterator(ordinal);
         while(iter.next()) {
             fillKeyList.add(iter.getKey());

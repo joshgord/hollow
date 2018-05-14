@@ -147,11 +147,13 @@ public class HollowObjectTypeWriteState extends HollowTypeWriteState {
         return pointer;
     }
 
-    private void addFixedLengthFieldRequiredBits(FieldStatistics fieldStats, int fieldIndex, int numBits) {
+    private static void addFixedLengthFieldRequiredBits(FieldStatistics fieldStats, int fieldIndex,
+        int numBits) {
         fieldStats.addFixedLengthFieldRequiredBits(fieldIndex, numBits);
     }
 
-    private void addVarLengthFieldSizeInBytes(FieldStatistics fieldStats, int fieldIndex, int numBytes) {
+    private static void addVarLengthFieldSizeInBytes(FieldStatistics fieldStats, int fieldIndex,
+        int numBytes) {
         fieldStats.addVarLengthFieldSize(fieldIndex, numBytes);
     }
 
@@ -436,7 +438,7 @@ public class HollowObjectTypeWriteState extends HollowTypeWriteState {
         return readPointer;
     }
 
-    private ByteDataBuffer getByteArray(ByteDataBuffer buffers[], int index) {
+    private static ByteDataBuffer getByteArray(ByteDataBuffer buffers[], int index) {
         if(buffers[index] == null) {
             buffers[index] = new ByteDataBuffer(WastefulRecycler.DEFAULT_INSTANCE);
         }

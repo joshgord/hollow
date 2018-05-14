@@ -24,9 +24,6 @@ import java.util.Collections;
 
 public class HollowObjectSampler implements HollowSampler {
 
-  public static final HollowObjectSampler NULL_SAMPLER =
-      new HollowObjectSampler(new HollowObjectSchema("", 0), DisabledSamplingDirector.INSTANCE);
-
   public HollowObjectSampler(HollowObjectSchema schema, HollowSamplingDirector director) {}
 
   public void setSamplingDirector(HollowSamplingDirector director) {}

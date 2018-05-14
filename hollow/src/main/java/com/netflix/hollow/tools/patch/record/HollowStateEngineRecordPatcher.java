@@ -128,7 +128,8 @@ public class HollowStateEngineRecordPatcher {
         return matches;
     }
 
-    private BitSet getOrCreateBitSet(Map<String, BitSet> bitSets, String typeName, int numBitsRequired) {
+    private static BitSet getOrCreateBitSet(Map<String, BitSet> bitSets, String typeName,
+        int numBitsRequired) {
         if(numBitsRequired < 0)
             return new BitSet(0);
 
@@ -140,7 +141,7 @@ public class HollowStateEngineRecordPatcher {
         return bs;
     }
 
-    private BitSet getPopulatedOrdinals(HollowTypeReadState typeState) {
+    private static BitSet getPopulatedOrdinals(HollowTypeReadState typeState) {
         return typeState.getListener(PopulatedOrdinalListener.class).getPopulatedOrdinals();
     }
 

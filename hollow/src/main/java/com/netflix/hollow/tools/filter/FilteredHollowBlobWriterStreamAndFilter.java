@@ -42,8 +42,9 @@ class FilteredHollowBlobWriterStreamAndFilter {
     public static DataOutputStream[] streamsOnly(FilteredHollowBlobWriterStreamAndFilter[] streamAndFilters) {
         DataOutputStream streams[] = new DataOutputStream[streamAndFilters.length];
 
-        for(int i=0;i<streams.length;i++)
-            streams[i] = streamAndFilters[i].getStream();
+        for(int i=0;i<streams.length;i++) {
+            streams[i] = streamAndFilters[i].dos;
+        }
 
         return streams;
     }
@@ -64,7 +65,7 @@ class FilteredHollowBlobWriterStreamAndFilter {
         int countConfigsWithType = 0;
 
         for(int i=0;i<allStreamAndFilters.length;i++) {
-            if(allStreamAndFilters[i].getConfig().doesIncludeType(typeName))
+            if(allStreamAndFilters[i].config.doesIncludeType(typeName))
                 countConfigsWithType++;
         }
 
@@ -72,7 +73,7 @@ class FilteredHollowBlobWriterStreamAndFilter {
         int withTypeCounter = 0;
 
         for(int i=0;i<allStreamAndFilters.length;i++) {
-            if(allStreamAndFilters[i].getConfig().doesIncludeType(typeName))
+            if(allStreamAndFilters[i].config.doesIncludeType(typeName))
                 streamAndFiltersWithType[withTypeCounter++] = allStreamAndFilters[i];
         }
 

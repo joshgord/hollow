@@ -255,22 +255,19 @@ public abstract class AbstractHollowDataAccessor<T> {
             } else if (!after.equals(other.after))
                 return false;
             if (before == null) {
-                if (other.before != null)
-                    return false;
-            } else if (!before.equals(other.before))
-                return false;
-            return true;
+                return other.before == null;
+            } else
+                return before.equals(other.before);
         }
 
         @Override
         public String toString() {
-            StringBuilder builder = new StringBuilder();
-            builder.append("UpdatedRecord [before=");
-            builder.append(before);
-            builder.append(", after=");
-            builder.append(after);
-            builder.append("]");
-            return builder.toString();
+            String builder = "UpdatedRecord [before="
+                + before
+                + ", after="
+                + after
+                + "]";
+            return builder;
         }
     }
 }

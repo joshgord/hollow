@@ -88,18 +88,18 @@ public class HollowMapSchema extends HollowSchema {
         HollowMapSchema otherSchema = (HollowMapSchema)other;
         if(!getName().equals(otherSchema.getName()))
             return false;
-        if(!getKeyType().equals(otherSchema.getKeyType()))
+      if(!keyType.equals(otherSchema.keyType))
             return false;
-        if(!getValueType().equals(otherSchema.getValueType()))
+      if(!valueType.equals(otherSchema.valueType))
             return false;
 
-        return isNullableObjectEquals(hashKey, otherSchema.getHashKey());
+      return isNullableObjectEquals(hashKey, otherSchema.hashKey);
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(getName());
-        builder.append(" Map<").append(getKeyType()).append(",").append(getValueType()).append(">");
+      builder.append(" Map<").append(keyType).append(",").append(valueType).append(">");
 
         if(hashKey != null) {
             builder.append(" @HashKey(");
@@ -120,19 +120,19 @@ public class HollowMapSchema extends HollowSchema {
     public void writeTo(OutputStream os) throws IOException {
         DataOutputStream dos = new DataOutputStream(os);
 
-        if(getHashKey() != null)
+      if(hashKey != null)
             dos.write(SchemaType.MAP.getTypeIdWithPrimaryKey());
         else
             dos.write(SchemaType.MAP.getTypeId());
 
         dos.writeUTF(getName());
-        dos.writeUTF(getKeyType());
-        dos.writeUTF(getValueType());
+      dos.writeUTF(keyType);
+      dos.writeUTF(valueType);
 
-        if(getHashKey() != null) {
-            VarInt.writeVInt(dos, getHashKey().numFields());
-            for(int i=0;i<getHashKey().numFields();i++) {
-                dos.writeUTF(getHashKey().getFieldPath(i));
+      if(hashKey != null) {
+        VarInt.writeVInt(dos, hashKey.numFields());
+        for(int i=0;i< hashKey.numFields();i++) {
+          dos.writeUTF(hashKey.getFieldPath(i));
             }
         }
     }

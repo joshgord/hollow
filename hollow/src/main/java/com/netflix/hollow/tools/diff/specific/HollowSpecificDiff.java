@@ -222,7 +222,7 @@ public class HollowSpecificDiff {
         }
     }
 
-    private int hashTableSize(int numMatches) {
+    private static int hashTableSize(int numMatches) {
         return 1 << (32 - Integer.numberOfLeadingZeros((numMatches * 2) - 1));
     }
 

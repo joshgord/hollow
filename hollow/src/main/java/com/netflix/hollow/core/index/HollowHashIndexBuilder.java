@@ -53,8 +53,7 @@ public class HollowHashIndexBuilder {
 
     private GrowingSegmentedLongArray matchIndexHashAndSizeArray;
     private FixedLengthElementArray intermediateMatchHashTable;
-    private MultiLinkedElementArray intermediateSelectLists;
-    private int intermediateMatchHashTableSize;
+  private int intermediateMatchHashTableSize;
     private int bitsPerIntermediateListIdentifier;
     private int bitsPerIntermediateMatchHashEntry;
     private int intermediateMatchHashMask;
@@ -108,7 +107,7 @@ public class HollowHashIndexBuilder {
         intermediateMatchHashTable = new FixedLengthElementArray(memoryRecycler, (long)intermediateMatchHashTableSize * bitsPerIntermediateMatchHashEntry);
 
         /// a data structure which tracks lists of matches under canonical matches.
-        intermediateSelectLists = new MultiLinkedElementArray(memoryRecycler);
+      MultiLinkedElementArray intermediateSelectLists = new MultiLinkedElementArray(memoryRecycler);
 
         HollowIndexerValueTraverser traverser = preindexer.getTraverser();
 
@@ -155,7 +154,8 @@ public class HollowHashIndexBuilder {
                     matchListIdx = (int)intermediateMatchHashTable.getElementValue(hashBucketBit + bitsPerMatchHashKey, bitsPerIntermediateListIdentifier);
                 }
 
-                intermediateSelectLists.add(matchListIdx, traverser.getMatchOrdinal(i, preindexer.getSelectFieldSpec().getBaseIteratorFieldIdx()));
+                intermediateSelectLists
+                    .add(matchListIdx, traverser.getMatchOrdinal(i, preindexer.getSelectFieldSpec().getBaseIteratorFieldIdx()));
             }
 
 
@@ -166,7 +166,8 @@ public class HollowHashIndexBuilder {
 
 
         /// turn those data structures into a compact one optimized for hash lookup
-        long totalNumberOfSelectBucketsAndBitsRequiredForSelectTableSize = calculateDedupedSizesAndTotalNumberOfSelectBuckets(intermediateSelectLists, matchIndexHashAndSizeArray);
+        long totalNumberOfSelectBucketsAndBitsRequiredForSelectTableSize = calculateDedupedSizesAndTotalNumberOfSelectBuckets(
+            intermediateSelectLists, matchIndexHashAndSizeArray);
         long totalNumberOfSelectBuckets = totalNumberOfSelectBucketsAndBitsRequiredForSelectTableSize & 0xFFFFFFFFFFFFFFL;
         long totalNumberOfMatchBuckets = HashCodes.hashTableSize(matchCount);
 
@@ -293,7 +294,8 @@ public class HollowHashIndexBuilder {
      * Called after initial pass.
      * Returns the sum total number of select buckets in the low 7 bytes, and the bits required for the max set size in the high 1 byte.
      */
-    private long calculateDedupedSizesAndTotalNumberOfSelectBuckets(MultiLinkedElementArray elementArray, GrowingSegmentedLongArray matchIndexHashAndSizeArray) {
+    private static long calculateDedupedSizesAndTotalNumberOfSelectBuckets(
+        MultiLinkedElementArray elementArray, GrowingSegmentedLongArray matchIndexHashAndSizeArray) {
         long totalBuckets = 0;
         long maxSize = 0;
         int[] selectArray = new int[8];
@@ -373,7 +375,7 @@ public class HollowHashIndexBuilder {
         return true;
     }
 
-    private boolean isAnyFieldNull(int matchOrdinal, int hashOrdinal) {
+    private static boolean isAnyFieldNull(int matchOrdinal, int hashOrdinal) {
         return matchOrdinal == -1 || hashOrdinal == -1;
     }
 

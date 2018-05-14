@@ -475,7 +475,7 @@ public class ByteArrayOrdinalMap {
    /**
     * Create an AtomicLongArray of the specified size, each value in the array will be EMPTY_BUCKET_VALUE
     */
-   private AtomicLongArray emptyKeyArray(int size) {
+   private static AtomicLongArray emptyKeyArray(int size) {
        AtomicLongArray arr = new AtomicLongArray(size);
        for(int i=0;i<arr.length();i++) {
            arr.set(i, EMPTY_BUCKET_VALUE);

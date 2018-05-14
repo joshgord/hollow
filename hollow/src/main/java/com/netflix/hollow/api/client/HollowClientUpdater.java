@@ -133,7 +133,7 @@ public class HollowClientUpdater {
             throw th;
         }
     }
-    
+
     public void addRefreshListener(HollowConsumer.RefreshListener refreshListener) {
         refreshListeners.add(refreshListener);
     }
@@ -180,10 +180,6 @@ public class HollowClientUpdater {
         return new HollowReadStateEngine(hashCodeFinder);
     }
 
-    public StackTraceRecorder getStaleReferenceUsageStackTraceRecorder() {
-        return staleReferenceDetector.getStaleReferenceStackTraceRecorder();
-    }
-
     public HollowReadStateEngine getStateEngine() {
         return hollowDataHolder.getStateEngine();
     }
@@ -209,7 +205,7 @@ public class HollowClientUpdater {
     public int getNumFailedDeltaTransitions() {
         return failedTransitionTracker.getNumFailedDeltaTransitions();
     }
-    
+
     /**
      * Clear any failed transitions from the {@link FailedTransitionTracker}, so that they may be reattempted when an update is triggered.
      */

@@ -336,7 +336,8 @@ public class HollowSetTypeWriteState extends HollowTypeWriteState {
         
         for(int i=0;i<numShards;i++) {
             setPointersAndSizesArray[i] = new FixedLengthElementArray(WastefulRecycler.DEFAULT_INSTANCE, (long)numSetsInDelta[i] * bitsPerSetFixedLengthPortion);
-            elementArray[i] = new FixedLengthElementArray(WastefulRecycler.DEFAULT_INSTANCE, (long)numBucketsInDelta[i] * bitsPerElement);
+            elementArray[i] = new FixedLengthElementArray(WastefulRecycler.DEFAULT_INSTANCE, numBucketsInDelta[i]
+                * bitsPerElement);
             deltaAddedOrdinals[i] = new ByteDataBuffer(WastefulRecycler.DEFAULT_INSTANCE);
             deltaRemovedOrdinals[i] = new ByteDataBuffer(WastefulRecycler.DEFAULT_INSTANCE);
         }

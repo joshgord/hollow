@@ -97,36 +97,37 @@ public class HollowStateEngineClassJavaGenerator implements HollowJavaFileGenera
             builder.append("package ").append(packageName).append(";\n\n");
         }
 
-        builder.append("import " + HollowFactory.class.getName() + ";\n");
-        builder.append("import " + HollowReadStateEngine.class.getName() + ";\n");
-        builder.append("import " + HollowTypeReadState.class.getName() + ";\n");
-        builder.append("import " + HollowObjectTypeReadState.class.getName() + ";\n");
-        builder.append("import " + HollowListTypeReadState.class.getName() + ";\n");
-        builder.append("import " + HollowSetTypeReadState.class.getName() + ";\n");
-        builder.append("import " + HollowMapTypeReadState.class.getName() + ";\n\n");
+        builder.append("import ").append(HollowFactory.class.getName()).append(";\n");
+        builder.append("import ").append(HollowReadStateEngine.class.getName()).append(";\n");
+        builder.append("import ").append(HollowTypeReadState.class.getName()).append(";\n");
+        builder.append("import ").append(HollowObjectTypeReadState.class.getName()).append(";\n");
+        builder.append("import ").append(HollowListTypeReadState.class.getName()).append(";\n");
+        builder.append("import ").append(HollowSetTypeReadState.class.getName()).append(";\n");
+        builder.append("import ").append(HollowMapTypeReadState.class.getName()).append(";\n\n");
 
-        builder.append("import " + Collections.class.getName() + ";\n");
-        builder.append("import " + Collection.class.getName() + ";\n");
-        builder.append("import " + Set.class.getName() + ";\n");
-        builder.append("import " + List.class.getName() + ";\n");
-        builder.append("import " + ArrayList.class.getName() + ";\n");
-        builder.append("import " + SampleResult.class.getName() + ";\n");
-        builder.append("import " + HollowSamplingDirector.class.getName() + ";\n");
-        builder.append("import " + HollowObjectCreationSampler.class.getName() + ";\n\n");
+        builder.append("import ").append(Collections.class.getName()).append(";\n");
+        builder.append("import ").append(Collection.class.getName()).append(";\n");
+        builder.append("import ").append(Set.class.getName()).append(";\n");
+        builder.append("import ").append(List.class.getName()).append(";\n");
+        builder.append("import ").append(ArrayList.class.getName()).append(";\n");
+        builder.append("import ").append(SampleResult.class.getName()).append(";\n");
+        builder.append("import ").append(HollowSamplingDirector.class.getName()).append(";\n");
+        builder.append("import ").append(HollowObjectCreationSampler.class.getName())
+            .append(";\n\n");
 
-        builder.append("import " + HollowListDelegate.class.getName() + ";\n");
-        builder.append("import " + HollowListLookupDelegate.class.getName() + ";\n");
-        builder.append("import " + HollowSetDelegate.class.getName() + ";\n");
-        builder.append("import " + HollowSetLookupDelegate.class.getName() + ";\n");
-        builder.append("import " + HollowMapDelegate.class.getName() + ";\n");
-        builder.append("import " + HollowMapLookupDelegate.class.getName() + ";\n");
+        builder.append("import ").append(HollowListDelegate.class.getName()).append(";\n");
+        builder.append("import ").append(HollowListLookupDelegate.class.getName()).append(";\n");
+        builder.append("import ").append(HollowSetDelegate.class.getName()).append(";\n");
+        builder.append("import ").append(HollowSetLookupDelegate.class.getName()).append(";\n");
+        builder.append("import ").append(HollowMapDelegate.class.getName()).append(";\n");
+        builder.append("import ").append(HollowMapLookupDelegate.class.getName()).append(";\n");
 
-        builder.append("import " + ArraySegmentRecycler.class.getName() + ";\n");
-        builder.append("import " + RecyclingRecycler.class.getName() + ";\n\n");
+        builder.append("import ").append(ArraySegmentRecycler.class.getName()).append(";\n");
+        builder.append("import ").append(RecyclingRecycler.class.getName()).append(";\n\n");
 
 
-        builder.append("import " + HollowObjectHashCodeFinder.class.getName() + ";\n");
-        builder.append("import " + DefaultHashCodeFinder.class.getName() + ";\n\n");
+        builder.append("import ").append(HollowObjectHashCodeFinder.class.getName()).append(";\n");
+        builder.append("import ").append(DefaultHashCodeFinder.class.getName()).append(";\n\n");
 
         builder.append("@SuppressWarnings(\"all\")\n");
         builder.append("public class ").append(className).append(" extends HollowAPI {\n\n");
@@ -136,14 +137,14 @@ public class HollowStateEngineClassJavaGenerator implements HollowJavaFileGenera
         builder.append("    private Set<String> configCachedTypesSet;\n\n");
 
         for (HollowSchema schema : schemaList) {
-            builder.append("    private " + typeAPIClassname(schema.getName())).append(" ").append(lowercase(typeAPIClassname(schema.getName()))).append(" = new ").append(typeAPIClassname(schema.getName())).append("(this, null);\n");
+            builder.append("    private ").append(typeAPIClassname(schema.getName())).append(" ").append(lowercase(typeAPIClassname(schema.getName()))).append(" = new ").append(typeAPIClassname(schema.getName())).append("(this, null);\n");
         }
 
         builder.append("\n\n");
 
         for(HollowSchema schema : schemaList) {
             if(schema instanceof HollowObjectSchema) {
-                builder.append("    private " + delegateLookupImplName(schema.getName())).append(" ").append(lowercase(delegateLookupImplName(schema.getName())))
+                builder.append("    private ").append(delegateLookupImplName(schema.getName())).append(" ").append(lowercase(delegateLookupImplName(schema.getName())))
                     .append(" = new ").append(delegateLookupImplName(schema.getName())).append("(").append(lowercase(typeAPIClassname(schema.getName()))).append(");\n");
 
             } else if(schema instanceof HollowListSchema) {
@@ -205,14 +206,15 @@ public class HollowStateEngineClassJavaGenerator implements HollowJavaFileGenera
         builder.append("\n\n");
 
         for (HollowSchema schema : schemaList) {
-            builder.append("    public " + typeAPIClassname(schema.getName())).append(" get").append(typeAPIClassname(schema.getName())).append("() {\n");
-            builder.append("        return " + lowercase(typeAPIClassname(schema.getName()))).append(";\n");
+            builder.append("    public ").append(typeAPIClassname(schema.getName())).append(" get").append(typeAPIClassname(schema.getName())).append("() {\n");
+            builder.append("        return ").append(lowercase(typeAPIClassname(schema.getName()))).append(";\n");
             builder.append("    };\n\n");
         }
 
         for (HollowSchema schema : schemaList) {
-            builder.append("    public " + delegateInterfaceName(schema)).append(" get").append(delegateLookupImplName(schema.getName())).append("() {\n");
-            builder.append("        return " + lowercase(delegateLookupImplName(schema.getName()))).append(";\n");
+            builder.append("    public ").append(delegateInterfaceName(schema)).append(" get").append(delegateLookupImplName(schema.getName())).append("() {\n");
+            builder.append("        return ")
+                .append(lowercase(delegateLookupImplName(schema.getName()))).append(";\n");
             builder.append("    };\n\n");
         }
 
@@ -225,12 +227,16 @@ public class HollowStateEngineClassJavaGenerator implements HollowJavaFileGenera
             else
                 builder.append("    public ").append(hollowImplClassname).append(" get").append(hollowImplClassname).append("(int ordinal){\n");
             builder.append("        objectCreationSampler.recordCreation(").append(i).append(");\n");
-            builder.append("        return ").append(parameterizeClassNames ? "(T)" : "").append(" " + lowercase(hollowFactoryClassname(schema.getName())) + ".getHollowObject(ordinal);\n");
+            builder.append("        return ").append(parameterizeClassNames ? "(T)" : "")
+                .append(" ").append(lowercase(hollowFactoryClassname(schema.getName())))
+                .append(".getHollowObject(ordinal);\n");
             builder.append("    }\n\n");
         }
 
         for (HollowSchema schema : schemaList) {
-            builder.append("    public <T> void set" + hollowFactoryClassname(schema.getName()) + "(HollowFactory<T> factory) {\n");
+            builder.append("    public <T> void set")
+                .append(hollowFactoryClassname(schema.getName()))
+                .append("(HollowFactory<T> factory) {\n");
             builder.append("        if(configCachedTypesSet.contains(\"").append(schema.getName()).append("\"))\n");
             builder.append("            factory = new DelegatingCacheHollowFactory<T>(factory);\n");
             builder.append("        HollowTypeReadState typeState = getTypeState(\"").append(schema.getName()).append("\");\n");
@@ -312,7 +318,7 @@ public class HollowStateEngineClassJavaGenerator implements HollowJavaFileGenera
         return schemaList;
     }
 
-    private String getTypeStateCast(HollowSchema schema) {
+    private static String getTypeStateCast(HollowSchema schema) {
         if(schema instanceof HollowObjectSchema)
             return HollowObjectTypeReadState.class.getSimpleName();
         if(schema instanceof HollowListSchema)

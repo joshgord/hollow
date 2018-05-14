@@ -238,7 +238,7 @@ public class HollowTypeDiff {
         this.calculatedFieldDiffs = combineResults(results);
     }
 
-    private List<HollowFieldDiff> combineResults(List<HollowFieldDiff> shardedResults[]) {
+    private static List<HollowFieldDiff> combineResults(List<HollowFieldDiff> shardedResults[]) {
         Map<HollowDiffNodeIdentifier, HollowFieldDiff> combinedResultsMap = new HashMap<HollowDiffNodeIdentifier, HollowFieldDiff>();
 
         for(List<HollowFieldDiff> shardResult : shardedResults) {
@@ -251,8 +251,8 @@ public class HollowTypeDiff {
             }
         }
 
-        List<HollowFieldDiff> combinedResults = new ArrayList<HollowFieldDiff>();
-        combinedResults.addAll(combinedResultsMap.values());
+      List<HollowFieldDiff> combinedResults = new ArrayList<HollowFieldDiff>(
+          combinedResultsMap.values());
         return combinedResults;
     }
 

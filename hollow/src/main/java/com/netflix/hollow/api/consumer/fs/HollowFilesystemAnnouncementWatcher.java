@@ -42,8 +42,7 @@ public class HollowFilesystemAnnouncementWatcher implements HollowConsumer.Annou
 
     private final Logger log = Logger.getLogger(HollowFilesystemAnnouncementWatcher.class.getName());
 
-    private final Path publishPath;
-    private final Path announcePath;
+  private final Path announcePath;
 
     private final List<HollowConsumer> subscribedConsumers;
     private final ScheduledExecutorService executor;
@@ -90,10 +89,10 @@ public class HollowFilesystemAnnouncementWatcher implements HollowConsumer.Annou
      * @param publishPath
      */
     public HollowFilesystemAnnouncementWatcher(Path publishPath, ScheduledExecutorService executor) {
-        this.publishPath = publishPath;
+      Path publishPath1 = publishPath;
         this.executor = executor;
 
-        this.announcePath = this.publishPath.resolve(HollowFilesystemAnnouncer.ANNOUNCEMENT_FILENAME);
+        this.announcePath = publishPath1.resolve(HollowFilesystemAnnouncer.ANNOUNCEMENT_FILENAME);
         this.subscribedConsumers = new CopyOnWriteArrayList<>();
         this.latestVersion = readLatestVersion();
 

@@ -140,7 +140,7 @@ public class HollowPrefixIndex implements HollowTypeStateListener {
      * @param averageWordLen
      * @return
      */
-    protected long estimateNumNodes(long totalWords, long averageWordLen) {
+    protected static long estimateNumNodes(long totalWords, long averageWordLen) {
         return totalWords * averageWordLen;
     }
 
@@ -331,9 +331,7 @@ public class HollowPrefixIndex implements HollowTypeStateListener {
         }
 
         private boolean isLeafNode(long nodeIndex) {
-            if (nodes.getElementValue((nodeIndex * bitsPerNode) + isLeafNodeFlagOffset, 1) == 1)
-                return true;
-            return false;
+          return nodes.getElementValue((nodeIndex * bitsPerNode) + isLeafNodeFlagOffset, 1) == 1;
         }
 
         private void addOrdinal(long nodeIndex, long ordinal) {
@@ -431,8 +429,7 @@ public class HollowPrefixIndex implements HollowTypeStateListener {
 
         private boolean contains(String key) {
             long nodeIndex = findNodeWithKey(key);
-            if (nodeIndex >= 0 && isLeafNode(nodeIndex)) return true;
-            return false;
+          return nodeIndex >= 0 && isLeafNode(nodeIndex);
         }
 
         /**

@@ -33,7 +33,7 @@ import com.netflix.hollow.core.read.engine.HollowTypeReadState;
  * Anything more results in failure of validation.
  */
 public class RecordCountVarianceValidator implements Nameable, Validator {
-	private final String NAME = "RecordCountVarianceValidator";
+	private static final String NAME = "RecordCountVarianceValidator";
 	
 	private final String typeName;
 	private final float allowableVariancePercent;
@@ -86,8 +86,7 @@ public class RecordCountVarianceValidator implements Nameable, Validator {
 	public String toString(){
 		if(status != null) {
 			// For now only return message and additional data
-			StringBuffer msg = new StringBuffer(status.getMessage());
-			return  msg.append(status.getAdditionalInfo()).toString();
+			return status.getMessage() + status.getAdditionalInfo();
 		}
 		return("RecordCountVarianceValidator status for "+typeName+" is null. This is unexpected. Please check validator definition.");
 	}
@@ -100,7 +99,7 @@ public class RecordCountVarianceValidator implements Nameable, Validator {
 		return builder;
 	}
 
-	float getChangePercent(int latestCardinality, int previousCardinality) {
+	static float getChangePercent(int latestCardinality, int previousCardinality) {
 		int diff = Math.abs(latestCardinality - previousCardinality);
 		float changePercent = ((float)100.0* diff)/(float)previousCardinality;
 		return changePercent;

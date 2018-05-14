@@ -79,7 +79,7 @@ public class FieldStatistics {
         return totalVarLengthDataSize;
     }
 
-    private int bitsRequiredForRepresentation(long value) {
+    private static int bitsRequiredForRepresentation(long value) {
         return 64 - Long.numberOfLeadingZeros(value + 1);
     }
 }

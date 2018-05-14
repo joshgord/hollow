@@ -118,7 +118,7 @@ public class HollowDiffRecordFieldExtractor {
         return values;
     }
 
-    private final String getType(HollowDiffNodeIdentifier nodeId) {
+    private static String getType(HollowDiffNodeIdentifier nodeId) {
         return nodeId.getParents().get(0).getNodeName();
     }
 

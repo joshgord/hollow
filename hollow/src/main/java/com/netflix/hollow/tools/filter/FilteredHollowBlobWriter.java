@@ -67,9 +67,7 @@ public class FilteredHollowBlobWriter {
 
     private final HollowFilterConfig configs[];
     private final HollowBlobHeaderReader headerReader;
-    private final HollowBlobHeaderWriter headerWriter;
     private final ArraySegmentRecycler memoryRecycler;
-    private final Set<String> expectedTypes;
 
     /**
      * A FilteredHollowBlobWriter should be configured with one or more configs.  
@@ -81,9 +79,9 @@ public class FilteredHollowBlobWriter {
     public FilteredHollowBlobWriter(HollowFilterConfig... configs) {
         this.configs = configs;
         this.headerReader = new HollowBlobHeaderReader();
-        this.headerWriter = new HollowBlobHeaderWriter();
+        HollowBlobHeaderWriter headerWriter = new HollowBlobHeaderWriter();
         this.memoryRecycler = WastefulRecycler.DEFAULT_INSTANCE;
-        this.expectedTypes = new HashSet<String>();
+        Set<String> expectedTypes = new HashSet<String>();
         for(HollowFilterConfig config : configs)
             expectedTypes.addAll(config.getSpecifiedTypes());
     }
@@ -126,7 +124,7 @@ public class FilteredHollowBlobWriter {
         for(FilteredHollowBlobWriterStreamAndFilter streamAndFilter : allStreamAndFilters) {
             List<HollowSchema> filteredSchemaList = getFilteredSchemaList(unfilteredSchemaList, streamAndFilter.getConfig());
             header.setSchemas(filteredSchemaList);
-            headerWriter.writeHeader(header, streamAndFilter.getStream());
+            HollowBlobHeaderWriter.writeHeader(header, streamAndFilter.getStream());
             VarInt.writeVInt(streamAndFilter.getStream(), filteredSchemaList.size());
         }
         
@@ -187,7 +185,7 @@ public class FilteredHollowBlobWriter {
         return VarInt.readVInt(is);
     }
     
-    private void skipForwardsCompatibilityBytes(InputStream is) throws IOException {
+    private static void skipForwardsCompatibilityBytes(InputStream is) throws IOException {
         int bytesToSkip = VarInt.readVInt(is);
         while(bytesToSkip > 0) {
             int skippedBytes = (int)is.skip(bytesToSkip);
@@ -308,7 +306,8 @@ public class FilteredHollowBlobWriter {
             copySnapshotPopulatedOrdinals(is, os);
     }
 
-    private long writeBitsPerField(HollowObjectSchema unfilteredSchema, int bitsPerField[], HollowObjectSchema filteredSchema, DataOutputStream os) throws IOException {
+    private static long writeBitsPerField(HollowObjectSchema unfilteredSchema, int bitsPerField[],
+        HollowObjectSchema filteredSchema, DataOutputStream os) throws IOException {
         long bitsPerRecord = 0;
 
         for(int i=0;i<unfilteredSchema.numFields();i++) {
@@ -441,7 +440,7 @@ public class FilteredHollowBlobWriter {
             copySnapshotPopulatedOrdinals(is, os);
     }
 
-    private void copySnapshotPopulatedOrdinals(DataInputStream is, DataOutputStream[] os) throws IOException {
+    private static void copySnapshotPopulatedOrdinals(DataInputStream is, DataOutputStream[] os) throws IOException {
         int numLongs = is.readInt();
         for(int i=0;i<os.length;i++)
             os[i].writeInt(numLongs);

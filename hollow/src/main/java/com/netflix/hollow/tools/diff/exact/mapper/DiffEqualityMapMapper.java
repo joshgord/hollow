@@ -64,7 +64,8 @@ public class DiffEqualityMapMapper extends DiffEqualityTypeMapper {
         return recordHashCode(toState(), ordinal, keyEqualOrdinalMap.getToOrdinalIdentityTranslator(), valueEqualOrdinalMap.getToOrdinalIdentityTranslator());
     }
 
-    private int recordHashCode(HollowMapTypeReadState typeState, int ordinal, OrdinalIdentityTranslator keyTranslator, OrdinalIdentityTranslator valueTranslator) {
+    private static int recordHashCode(HollowMapTypeReadState typeState, int ordinal,
+        OrdinalIdentityTranslator keyTranslator, OrdinalIdentityTranslator valueTranslator) {
         HollowMapEntryOrdinalIterator iter = typeState.ordinalIterator(ordinal);
 
         int hashCode = 0;

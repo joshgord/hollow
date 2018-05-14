@@ -83,7 +83,8 @@ class HollowWriteStateEnginePrimaryKeyHasher {
         return HashCodes.hashInt(fieldHashCode(schema, fieldPosition, recordDataArray, offset));
     }
     
-    private long navigateToField(HollowObjectSchema schema, int fieldIdx, SegmentedByteArray data, long offset) {
+    private static long navigateToField(HollowObjectSchema schema, int fieldIdx,
+        SegmentedByteArray data, long offset) {
         for(int i=0;i<fieldIdx;i++) {
             switch(schema.getFieldType(fieldIdx)) {
             case INT:
@@ -150,7 +151,7 @@ class HollowWriteStateEnginePrimaryKeyHasher {
         }
     }
     
-    private int getNaturalStringHashCode(SegmentedByteArray data, long offset, int len) {
+    private static int getNaturalStringHashCode(SegmentedByteArray data, long offset, int len) {
         int hashCode = 0;
         long endOffset = len + offset;
         

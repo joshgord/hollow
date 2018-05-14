@@ -141,7 +141,7 @@ public class HollowSchemaSorter {
             }
         }
 
-        private boolean schemaExists(String schemaName, Collection<HollowSchema> allSchemas) {
+        private static boolean schemaExists(String schemaName, Collection<HollowSchema> allSchemas) {
             for(HollowSchema schema : allSchemas) {
                 if(schema.getName().equals(schemaName))
                     return true;
@@ -149,7 +149,7 @@ public class HollowSchemaSorter {
             return false;
         }
 
-        private Set<String> getList(String key, Map<String, Set<String>> dependencyIndex2) {
+        private static Set<String> getList(String key, Map<String, Set<String>> dependencyIndex2) {
             Set<String> list = dependencyIndex2.get(key);
             if(list == null) {
                 list = new HashSet<String>();

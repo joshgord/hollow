@@ -25,6 +25,7 @@ import com.netflix.hollow.core.write.objectmapper.RecordPrimaryKey;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -279,8 +280,7 @@ public class HollowIncrementalProducer {
         }
 
         public B withListeners(IncrementalCycleListener... listeners) {
-            for (IncrementalCycleListener listener : listeners)
-                this.listeners.add(listener);
+          Collections.addAll(this.listeners, listeners);
             return (B) this;
         }
 

@@ -74,7 +74,9 @@ public class HollowPreindexer {
         traverser = new HollowIndexerValueTraverser(stateEngine, type, baseFields);
     }
     
-    private HollowHashIndexField getHollowHashIndexField(HollowTypeReadState originalTypeState, String selectField, Map<String, Integer> baseFieldToIndexMap, boolean truncate) {
+    private static HollowHashIndexField getHollowHashIndexField(
+        HollowTypeReadState originalTypeState, String selectField,
+        Map<String, Integer> baseFieldToIndexMap, boolean truncate) {
         String fieldPaths[] = "".equals(selectField) ? new String[0] : selectField.split("\\.");
         int fieldPathIndexes[] = new int[fieldPaths.length];
 

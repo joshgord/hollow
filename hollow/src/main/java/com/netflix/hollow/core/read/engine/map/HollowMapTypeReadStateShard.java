@@ -177,16 +177,18 @@ class HollowMapTypeReadStateShard {
         return bucketValue;
     }
 
-    private long getAbsoluteBucketStart(HollowMapTypeDataElements currentData, int ordinal) {
+    private static long getAbsoluteBucketStart(HollowMapTypeDataElements currentData, int ordinal) {
         long startBucket = ordinal == 0 ? 0 : currentData.mapPointerAndSizeArray.getElementValue((long)(ordinal - 1) * currentData.bitsPerFixedLengthMapPortion, currentData.bitsPerMapPointer);
         return startBucket;
     }
 
-    private int getBucketKeyByAbsoluteIndex(HollowMapTypeDataElements currentData, long absoluteBucketIndex) {
+    private static int getBucketKeyByAbsoluteIndex(HollowMapTypeDataElements currentData,
+        long absoluteBucketIndex) {
         return (int)currentData.entryArray.getElementValue(absoluteBucketIndex * currentData.bitsPerMapEntry, currentData.bitsPerKeyElement);
     }
 
-    private int getBucketValueByAbsoluteIndex(HollowMapTypeDataElements currentData, long absoluteBucketIndex) {
+    private static int getBucketValueByAbsoluteIndex(HollowMapTypeDataElements currentData,
+        long absoluteBucketIndex) {
         return (int)currentData.entryArray.getElementValue((absoluteBucketIndex * currentData.bitsPerMapEntry) + currentData.bitsPerKeyElement, currentData.bitsPerValueElement);
     }
 

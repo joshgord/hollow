@@ -167,7 +167,7 @@ public class HollowDataHolder {
                 priorHistoricalDataAccess = null;
             }
 
-            if(!staleReferenceDetector.isKnownAPIHandle(currentAPI))
+            if(!StaleHollowReferenceDetector.isKnownAPIHandle(currentAPI))
                 staleReferenceDetector.newAPIHandle(currentAPI);
             
             for(HollowConsumer.RefreshListener refreshListener : refreshListeners) {
@@ -204,8 +204,8 @@ public class HollowDataHolder {
             reader.applyDelta(is);
         }
 
-        setVersion(transition.getToVersion());
-        
+        currentVersion = transition.getToVersion();
+
         for(HollowConsumer.RefreshListener refreshListener : refreshListeners)
             refreshListener.blobLoaded(transition);
     }

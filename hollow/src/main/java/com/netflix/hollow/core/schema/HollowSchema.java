@@ -164,8 +164,7 @@ public abstract class HollowSchema {
     protected static <T> boolean isNullableObjectEquals(T o1, T o2) {
         if (o1==o2) return true;
         if (o1==null && o2==null) return true;
-        if (o1!=null && o1.equals(o2)) return true;
-        return false;
+      return o1 != null && o1.equals(o2);
     }
 
     public static enum SchemaType {

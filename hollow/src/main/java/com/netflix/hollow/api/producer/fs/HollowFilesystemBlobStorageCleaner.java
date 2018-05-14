@@ -70,7 +70,7 @@ public class HollowFilesystemBlobStorageCleaner extends HollowProducer.BlobStora
     @Override
     public void cleanReverseDeltas() { }
 
-    private void sortByLastModified(File[] files) {
+    private static void sortByLastModified(File[] files) {
         Arrays.sort(files, new Comparator<File>() {
             public int compare(File f1, File f2) {
                 Long lastModifiedF2 = f2.lastModified();

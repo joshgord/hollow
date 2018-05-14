@@ -59,7 +59,7 @@ public class MultiLinkedElementArray {
 
             linkedElements.set(++nextLinkedElement, newLink);
 
-            listPtr = (long)(nextLinkedElement++) << 32 | 3;
+            listPtr = nextLinkedElement++ << 32 | 3;
             listPointersAndSizes.set(listIdx, listPtr);
         } else {
             long linkedElement = listPtr >> 32;
@@ -69,7 +69,7 @@ public class MultiLinkedElementArray {
 
             linkedElements.set(nextLinkedElement, newLink);
 
-            listPtr = (long)(nextLinkedElement++) << 32 | (size + 1);
+            listPtr = nextLinkedElement++ << 32 | (size + 1);
 
             listPointersAndSizes.set(listIdx, listPtr);
         }

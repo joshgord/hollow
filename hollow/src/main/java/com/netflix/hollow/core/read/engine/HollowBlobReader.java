@@ -223,7 +223,7 @@ public class HollowBlobReader {
         return VarInt.readVInt(is);
     }
         
-    private void skipForwardsCompatibilityBytes(DataInputStream is) throws IOException {
+    private static void skipForwardsCompatibilityBytes(DataInputStream is) throws IOException {
         int bytesToSkip = VarInt.readVInt(is);
         while(bytesToSkip > 0) {
             int skippedBytes = (int)is.skip(bytesToSkip);
@@ -234,7 +234,7 @@ public class HollowBlobReader {
     }
 
 
-    private void discardDelta(DataInputStream dis, HollowSchema schema, int numShards) throws IOException {
+    private static void discardDelta(DataInputStream dis, HollowSchema schema, int numShards) throws IOException {
         if(schema instanceof HollowObjectSchema)
             HollowObjectTypeReadState.discardDelta(dis, (HollowObjectSchema)schema, numShards);
         else if(schema instanceof HollowListSchema)

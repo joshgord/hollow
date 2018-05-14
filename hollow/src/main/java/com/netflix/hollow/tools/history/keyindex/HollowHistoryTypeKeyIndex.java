@@ -163,7 +163,7 @@ public class HollowHistoryTypeKeyIndex {
         }
     }
 
-    private int[] initializeHashedKeyArray(int hashTableSize) {
+    private static int[] initializeHashedKeyArray(int hashTableSize) {
         int[] hashedRecordKeys = new int[hashTableSize];
         Arrays.fill(hashedRecordKeys, -1);
         return hashedRecordKeys;
@@ -296,7 +296,8 @@ public class HollowHistoryTypeKeyIndex {
         boolean foundMatch(int ordinal);
     }
 
-    private int findKeyFieldHashCode(HollowObjectTypeReadState typeState, int ordinal, String[] keyFieldParts, int keyFieldPartPosition) {
+    private static int findKeyFieldHashCode(HollowObjectTypeReadState typeState, int ordinal,
+        String[] keyFieldParts, int keyFieldPartPosition) {
         int schemaPosition = typeState.getSchema().getPosition(keyFieldParts[keyFieldPartPosition]);
         if(keyFieldPartPosition < keyFieldParts.length - 1) {
             HollowObjectTypeReadState nextPartTypeState = (HollowObjectTypeReadState) typeState.getSchema().getReferencedTypeState(schemaPosition);
@@ -315,7 +316,9 @@ public class HollowHistoryTypeKeyIndex {
         return true;
     }
 
-    private boolean recordFieldMatchesKey(HollowObjectTypeReadState typeState, int ordinal, HollowObjectTypeReadState keyTypeState, int keyOrdinal, int keyFieldPosition, String[] keyFieldParts, int keyFieldPartPosition) {
+    private static boolean recordFieldMatchesKey(HollowObjectTypeReadState typeState, int ordinal,
+        HollowObjectTypeReadState keyTypeState, int keyOrdinal, int keyFieldPosition,
+        String[] keyFieldParts, int keyFieldPartPosition) {
         int schemaPosition = typeState.getSchema().getPosition(keyFieldParts[keyFieldPartPosition]);
         if(keyFieldPartPosition < keyFieldParts.length - 1) {
             HollowObjectTypeReadState nextPartTypeState = (HollowObjectTypeReadState) typeState.getSchema().getReferencedTypeState(schemaPosition);
@@ -387,7 +390,9 @@ public class HollowHistoryTypeKeyIndex {
         writeStateEngine.add(primaryKey.getType(), rec);
     }
 
-    private void writeKeyField(HollowObjectTypeReadState typeState, int ordinal, HollowObjectWriteRecord rec, String keyField, String[] keyFieldParts, int keyFieldPartPosition) {
+    private static void writeKeyField(HollowObjectTypeReadState typeState, int ordinal,
+        HollowObjectWriteRecord rec, String keyField, String[] keyFieldParts,
+        int keyFieldPartPosition) {
         int schemaPosition = typeState.getSchema().getPosition(keyFieldParts[keyFieldPartPosition]);
         if(keyFieldPartPosition < keyFieldParts.length - 1) {
             HollowObjectTypeReadState nextPartTypeState = (HollowObjectTypeReadState) typeState.getSchema().getReferencedTypeState(schemaPosition);
@@ -442,7 +447,8 @@ public class HollowHistoryTypeKeyIndex {
         }
     }
 
-    private void addSchemaField(HollowObjectSchema schema, HollowObjectSchema keySchema, String keyField, String[] keyFieldParts, int keyFieldPartPosition) {
+    private static void addSchemaField(HollowObjectSchema schema, HollowObjectSchema keySchema,
+        String keyField, String[] keyFieldParts, int keyFieldPartPosition) {
         int schemaPosition = schema.getPosition(keyFieldParts[keyFieldPartPosition]);
         if(keyFieldPartPosition < keyFieldParts.length - 1) {
             HollowObjectSchema nextPartSchema = (HollowObjectSchema) schema.getReferencedTypeState(schemaPosition).getSchema();

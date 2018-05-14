@@ -18,6 +18,7 @@
 package com.netflix.hollow.core.util;
 
 import com.netflix.hollow.api.objects.HollowRecord;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,10 +30,8 @@ public class DefaultHashCodeFinder implements HollowObjectHashCodeFinder {
     
     public DefaultHashCodeFinder(String... typesWithDefinedHashCodes) { 
         this.typesWithDefinedHashCodes = new HashSet<String>(typesWithDefinedHashCodes.length);
-        
-        for(String type : typesWithDefinedHashCodes) {
-            this.typesWithDefinedHashCodes.add(type);
-        }
+
+      Collections.addAll(this.typesWithDefinedHashCodes, typesWithDefinedHashCodes);
     }
     
     @Deprecated
@@ -54,7 +53,7 @@ public class DefaultHashCodeFinder implements HollowObjectHashCodeFinder {
         return objectToHash.hashCode();
     }
 
-    public int hashCode(String typeName, Object objectToHash) {
+    public static int hashCode(String typeName, Object objectToHash) {
         if(objectToHash instanceof HollowRecord)
             return ((HollowRecord)objectToHash).getOrdinal();
         return objectToHash.hashCode();

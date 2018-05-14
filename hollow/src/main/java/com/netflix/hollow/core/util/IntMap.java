@@ -68,7 +68,7 @@ public class IntMap {
         size++;
     }
 
-    private int hashKey(int key) {
+    private static int hashKey(int key) {
       key = ~key + (key << 15);
       key = key ^ (key >>> 12);
       key = key + (key << 2);

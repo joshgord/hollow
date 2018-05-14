@@ -31,7 +31,7 @@ public class HollowBlobHeaderWriter {
      * @param header
      * @param dos
      */
-    public void writeHeader(HollowBlobHeader header, DataOutputStream dos) throws IOException {
+    public static void writeHeader(HollowBlobHeader header, DataOutputStream dos) throws IOException {
         /// save 4 bytes to indicate FastBlob version header.  This will be changed to indicate backwards incompatibility.
         dos.writeInt(HollowBlobHeader.HOLLOW_BLOB_VERSION_HEADER);
 

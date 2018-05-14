@@ -36,7 +36,6 @@ public class VarInt {
      */
     public static void writeVNull(ByteDataBuffer buf) {
         buf.write((byte)0x80);
-        return;
     }
 
     /**

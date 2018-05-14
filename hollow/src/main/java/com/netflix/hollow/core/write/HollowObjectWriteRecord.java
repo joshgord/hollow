@@ -70,7 +70,7 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
 
     private void writeField(ByteDataBuffer buf, int fieldIndex) {
         if (isNonNull[fieldIndex]) {
-            if (getSchema().getFieldType(fieldIndex).isVariableLength())
+          if (schema.getFieldType(fieldIndex).isVariableLength())
                 VarInt.writeVInt(buf, (int)fieldData[fieldIndex].length());
             fieldData[fieldIndex].copyTo(buf);
         } else {
@@ -88,10 +88,10 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
     }
 
     public void setNull(String fieldName) {
-        int fieldIndex = getSchema().getPosition(fieldName);
+      int fieldIndex = schema.getPosition(fieldName);
 
         ByteDataBuffer fieldBuffer = getFieldBuffer(fieldIndex);
-        FieldType fieldType = getSchema().getFieldType(fieldIndex);
+      FieldType fieldType = schema.getFieldType(fieldIndex);
 
         writeNull(fieldBuffer, fieldType);
     }
@@ -100,7 +100,7 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
         if(value == Integer.MIN_VALUE) {
             setNull(fieldName);
         } else {
-            int fieldIndex = getSchema().getPosition(fieldName);
+          int fieldIndex = schema.getPosition(fieldName);
 
             validateFieldType(fieldIndex, fieldName, FieldType.INT);
 
@@ -115,7 +115,7 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
         if(value == Long.MIN_VALUE) {
             setNull(fieldName);
         } else {
-            int fieldIndex = getSchema().getPosition(fieldName);
+          int fieldIndex = schema.getPosition(fieldName);
 
             validateFieldType(fieldIndex, fieldName, FieldType.LONG);
 
@@ -127,7 +127,7 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
     }
 
     public void setFloat(String fieldName, float value) {
-        int fieldIndex = getSchema().getPosition(fieldName);
+      int fieldIndex = schema.getPosition(fieldName);
 
         validateFieldType(fieldIndex, fieldName, FieldType.FLOAT);
 
@@ -138,7 +138,7 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
     }
 
     public void setDouble(String fieldName, double value) {
-        int fieldIndex = getSchema().getPosition(fieldName);
+      int fieldIndex = schema.getPosition(fieldName);
 
         validateFieldType(fieldIndex, fieldName, FieldType.DOUBLE);
 
@@ -149,7 +149,7 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
     }
 
     public void setBoolean(String fieldName, boolean value) {
-        int fieldIndex = getSchema().getPosition(fieldName);
+      int fieldIndex = schema.getPosition(fieldName);
 
         validateFieldType(fieldIndex, fieldName, FieldType.BOOLEAN);
 
@@ -161,7 +161,7 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
     public void setBytes(String fieldName, byte[] value) {
         if(value == null)  return;
 
-        int fieldIndex = getSchema().getPosition(fieldName);
+      int fieldIndex = schema.getPosition(fieldName);
 
         validateFieldType(fieldIndex, fieldName, FieldType.BYTES);
 
@@ -175,7 +175,7 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
     public void setString(String fieldName, String value) {
         if(value == null)  return;
 
-        int fieldIndex = getSchema().getPosition(fieldName);
+      int fieldIndex = schema.getPosition(fieldName);
 
         validateFieldType(fieldIndex, fieldName, FieldType.STRING);
 
@@ -187,7 +187,7 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
     }
 
     public void setReference(String fieldName, int ordinal) {
-        int fieldIndex = getSchema().getPosition(fieldName);
+      int fieldIndex = schema.getPosition(fieldName);
 
         validateFieldType(fieldIndex, fieldName, FieldType.REFERENCE);
 
@@ -196,7 +196,7 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
         VarInt.writeVInt(buf, ordinal);
     }
 
-    private void writeNull(ByteDataBuffer buf, FieldType fieldType) {
+    private static void writeNull(ByteDataBuffer buf, FieldType fieldType) {
         if(fieldType == FieldType.FLOAT) {
             writeNullFloat(buf);
         } else if(fieldType == FieldType.DOUBLE) {
@@ -262,8 +262,9 @@ public class HollowObjectWriteRecord implements HollowWriteRecord {
     }
 
     private void validateFieldType(int fieldIndex, String fieldName, FieldType attemptedFieldType) {
-        if(getSchema().getFieldType(fieldIndex) != attemptedFieldType) {
-            throw new IllegalArgumentException("Attempting to serialize " + attemptedFieldType + " in field " + fieldName + ".  Carefully check your schema for type " + getSchema().getName() + ".");
+      if(schema.getFieldType(fieldIndex) != attemptedFieldType) {
+        throw new IllegalArgumentException("Attempting to serialize " + attemptedFieldType + " in field " + fieldName + ".  Carefully check your schema for type " + schema
+            .getName() + ".");
         }
     }
 }

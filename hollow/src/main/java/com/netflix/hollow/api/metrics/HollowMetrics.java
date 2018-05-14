@@ -31,12 +31,12 @@ public abstract class HollowMetrics {
     private int totalPopulatedOrdinals = 0;
 
     protected void update(long version) {
-        setCurrentVersion(version);
+      this.currentVersion = version;
     }
 
     protected void update(HollowReadStateEngine hollowReadStateEngine, long version) {
-        setCurrentVersion(version);
-        calculateTypeMetrics(hollowReadStateEngine);
+      this.currentVersion = version;
+      calculateTypeMetrics(hollowReadStateEngine);
     }
 
     /**

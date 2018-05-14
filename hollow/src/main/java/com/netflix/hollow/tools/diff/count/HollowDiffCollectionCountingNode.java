@@ -112,7 +112,8 @@ public class HollowDiffCollectionCountingNode extends HollowDiffCountingNode {
 
     }
 
-    private void fillListWithReferencedOrdinals(HollowCollectionTypeReadState typeState, int ordinal, IntList fillList) {
+    private static void fillListWithReferencedOrdinals(HollowCollectionTypeReadState typeState,
+        int ordinal, IntList fillList) {
         HollowOrdinalIterator iter = typeState.ordinalIterator(ordinal);
         int refOrdinal = iter.next();
         while(refOrdinal != HollowOrdinalIterator.NO_MORE_ORDINALS) {

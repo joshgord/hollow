@@ -51,7 +51,7 @@ public abstract class HollowObjectAbstractDelegate implements HollowObjectDelega
                 dataAccess.readBoolean(ordinal, fieldIndex)
                 : missingDataHandler().handleBoolean(getSchema().getName(), ordinal, fieldName);
 
-        return bool == null ? false : bool.booleanValue();
+        return bool != null && bool.booleanValue();
     }
 
     @Override

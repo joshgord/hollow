@@ -303,7 +303,7 @@ public class HollowFilterConfig {
         return config;
     }
 
-    private Map<String, HollowSchema> mapSchemas(Collection<HollowSchema> schemas) {
+    private static Map<String, HollowSchema> mapSchemas(Collection<HollowSchema> schemas) {
         Map<String, HollowSchema> schemaMap = new HashMap<String, HollowSchema>();
         for(HollowSchema schema : schemas) {
             schemaMap.put(schema.getName(), schema);

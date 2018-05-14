@@ -23,9 +23,6 @@ import java.util.Collections;
 
 public class HollowSetSampler implements HollowSampler {
 
-  public static final HollowSetSampler NULL_SAMPLER =
-      new HollowSetSampler("", DisabledSamplingDirector.INSTANCE);
-
   public HollowSetSampler(String typeName, HollowSamplingDirector director) {}
 
   public void setSamplingDirector(HollowSamplingDirector director) {}

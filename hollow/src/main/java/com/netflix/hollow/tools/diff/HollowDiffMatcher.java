@@ -63,8 +63,10 @@ public class HollowDiffMatcher {
     }
 
     public void calculateMatches() {
-        fromIdx = new HollowPrimaryKeyIndex(fromTypeState.getStateEngine(), fromTypeState.getSchema().getName(), matchPaths.toArray(new String[matchPaths.size()]));
-        toIdx = new HollowPrimaryKeyIndex(toTypeState.getStateEngine(), toTypeState.getSchema().getName(), matchPaths.toArray(new String[matchPaths.size()]));
+        fromIdx = new HollowPrimaryKeyIndex(fromTypeState.getStateEngine(), fromTypeState.getSchema().getName(), matchPaths.toArray(
+            new String[0]));
+        toIdx = new HollowPrimaryKeyIndex(toTypeState.getStateEngine(), toTypeState.getSchema().getName(), matchPaths.toArray(
+            new String[0]));
 
         BitSet fromPopulatedOrdinals = fromTypeState.getListener(PopulatedOrdinalListener.class).getPopulatedOrdinals();
         BitSet fromUnmatchedOrdinals = new BitSet(fromPopulatedOrdinals.length());
@@ -121,7 +123,7 @@ public class HollowDiffMatcher {
         return keyDisplayString(key);
     }
 
-    private String keyDisplayString(Object[] key) {
+    private static String keyDisplayString(Object[] key) {
         StringBuilder sb = new StringBuilder(key[0].toString());
 
         for(int i=1;i<key.length;i++) {

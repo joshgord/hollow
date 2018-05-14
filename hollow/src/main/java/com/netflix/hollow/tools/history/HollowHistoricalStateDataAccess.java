@@ -17,7 +17,6 @@
  */
 package com.netflix.hollow.tools.history;
 
-import com.netflix.hollow.api.client.StackTraceRecorder;
 import com.netflix.hollow.api.error.SchemaNotFoundException;
 import com.netflix.hollow.core.read.dataaccess.HollowDataAccess;
 import com.netflix.hollow.core.read.dataaccess.HollowTypeDataAccess;
@@ -48,8 +47,6 @@ public class HollowHistoricalStateDataAccess implements HollowDataAccess {
     private final MissingDataHandler missingDataHandler;
 
     private HollowDataAccess nextState;
-
-    private StackTraceRecorder stackTraceRecorder;
 
     public HollowHistoricalStateDataAccess(HollowHistory totalHistory, long version, HollowReadStateEngine removedRecordCopies, OrdinalRemapper removedCopyOrdinalMappings, Map<String, HollowHistoricalSchemaChange> schemaChanges) {
         this(totalHistory, version, removedRecordCopies, removedRecordCopies.getTypeStates(), removedCopyOrdinalMappings, schemaChanges);
@@ -138,7 +135,7 @@ public class HollowHistoricalStateDataAccess implements HollowDataAccess {
             typeDataAccess = historicalState.typeDataAccessMap.get(typeName);
             if(typeDataAccess != null)
                 return typeDataAccess;
-            state = historicalState.getNextState();
+            state = historicalState.nextState;
         }
 
         return state.getTypeDataAccess(typeName);
@@ -155,9 +152,9 @@ public class HollowHistoricalStateDataAccess implements HollowDataAccess {
 
         while(state instanceof HollowHistoricalStateDataAccess) {
             HollowHistoricalStateDataAccess historicalState = (HollowHistoricalStateDataAccess)state;
-            if(historicalState.getOrdinalMapping().ordinalIsMapped(typeName, ordinal))
+            if(historicalState.removedCopyOrdinalMapping.ordinalIsMapped(typeName, ordinal))
                 return state.getTypeDataAccess(typeName);
-            state = historicalState.getNextState();
+            state = historicalState.nextState;
         }
 
         return state.getTypeDataAccess(typeName);
@@ -181,14 +178,6 @@ public class HollowHistoricalStateDataAccess implements HollowDataAccess {
     @Override
     public boolean hasSampleResults() {
         return false;
-    }
-
-    public void setStackTraceRecorder(StackTraceRecorder recorder) {
-        this.stackTraceRecorder = recorder;
-    }
-
-    StackTraceRecorder getStackTraceRecorder() {
-        return stackTraceRecorder;
     }
 
     public List<HollowSchema> getSchemas() {

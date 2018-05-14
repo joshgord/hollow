@@ -51,7 +51,7 @@ public class HollowSplitterPrimaryKeyCopyDirector implements HollowSplitterCopyD
 
     @Override
     public String[] getTopLevelTypes() {
-        return topLevelTypes.toArray(new String[topLevelTypes.size()]);
+        return topLevelTypes.toArray(new String[0]);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class HollowSplitterPrimaryKeyCopyDirector implements HollowSplitterCopyD
         return hashKey(topLevelType.getSchema().getName(), key) % numShards;
     }
     
-    public int hashKey(String type, Object[] key) {
+    public static int hashKey(String type, Object[] key) {
         return Arrays.hashCode(key);
     }
 

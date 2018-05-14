@@ -141,7 +141,8 @@ public class HollowFieldMatchQuery {
         return null;
     }
     
-    private BitSet queryBasedOnMatchedReferences(HollowObjectTypeReadState typeState, int referenceFieldPosition, BitSet matchedReferences) {
+    private static BitSet queryBasedOnMatchedReferences(HollowObjectTypeReadState typeState,
+        int referenceFieldPosition, BitSet matchedReferences) {
         BitSet populatedOrdinals = typeState.getPopulatedOrdinals();
         BitSet typeQueryMatches = new BitSet(populatedOrdinals.length());
       
@@ -155,7 +156,8 @@ public class HollowFieldMatchQuery {
         return typeQueryMatches;
     }
     
-    private BitSet queryBasedOnValueMatches(HollowObjectTypeReadState typeState, int fieldPosition, Object queryValue) {
+    private static BitSet queryBasedOnValueMatches(HollowObjectTypeReadState typeState,
+        int fieldPosition, Object queryValue) {
         BitSet populatedOrdinals = typeState.getPopulatedOrdinals();
         BitSet typeQueryMatches = new BitSet(populatedOrdinals.length());
       
@@ -168,7 +170,7 @@ public class HollowFieldMatchQuery {
         return typeQueryMatches;
     }
 
-    private Object castQueryValue(String fieldValue, FieldType fieldType) {
+    private static Object castQueryValue(String fieldValue, FieldType fieldType) {
         
         try {
             switch(fieldType) {

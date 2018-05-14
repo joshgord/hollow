@@ -241,9 +241,7 @@ class HollowObjectTypeReadStateShard {
 
             do {
                 currentData = this.currentData;
-
                 numBitsForField = currentData.bitsPerField[fieldIndex];
-
                 long currentBitOffset = fieldOffset(currentData, ordinal, fieldIndex);
                 endByte = currentData.fixedLengthData.getElementValue(currentBitOffset, numBitsForField);
                 startByte = ordinal != 0 ? currentData.fixedLengthData.getElementValue(currentBitOffset - currentData.bitsPerRecord, numBitsForField) : 0;
@@ -302,7 +300,8 @@ class HollowObjectTypeReadStateShard {
         return fieldIndex == -1 ? 0 : currentData.bitsPerField[fieldIndex];
     }
 
-    private long fieldOffset(HollowObjectTypeDataElements currentData, int ordinal, int fieldIndex) {
+    private static long fieldOffset(HollowObjectTypeDataElements currentData, int ordinal,
+        int fieldIndex) {
         return ((long)currentData.bitsPerRecord * ordinal) + currentData.bitOffsetPerField[fieldIndex];
     }
 
@@ -335,7 +334,8 @@ class HollowObjectTypeReadStateShard {
         return new String(chararr, 0, count);
     }
 
-    private boolean testStringEquality(ByteData data, long position, int length, String testValue) {
+    private static boolean testStringEquality(ByteData data, long position, int length,
+        String testValue) {
         if(length < testValue.length()) // can't check exact length here; the length argument is in bytes, which is equal to or greater than the number of characters.
             return false;
 
@@ -354,7 +354,7 @@ class HollowObjectTypeReadStateShard {
         return position == endPosition && count == testValue.length();
     }
 
-    private char[] getCharArray() {
+    private static char[] getCharArray() {
         char ch[] = chararr.get();
         if(ch == null) {
             ch = new char[100];

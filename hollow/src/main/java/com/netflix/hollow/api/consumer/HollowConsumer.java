@@ -35,6 +35,7 @@ import com.netflix.hollow.tools.history.HollowHistory;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executor;
@@ -781,8 +782,7 @@ public class HollowConsumer {
         }
 
         public B withRefreshListeners(HollowConsumer.RefreshListener... refreshListeners) {
-            for (HollowConsumer.RefreshListener refreshListener : refreshListeners)
-                this.refreshListeners.add(refreshListener);
+          Collections.addAll(this.refreshListeners, refreshListeners);
             return (B)this;
         }
 

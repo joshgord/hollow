@@ -64,16 +64,12 @@ public class HollowRecordJsonStringifier implements HollowStringifier<HollowReco
         this.collapseAllSingleFieldObjects = false;
         this.collapseObjectTypes = new HashSet<String>();
 
-        for (String collapseObjectType : collapseObjectTypes) {
-            this.collapseObjectTypes.add(collapseObjectType);
-        }
+      Collections.addAll(this.collapseObjectTypes, collapseObjectTypes);
     }
 
     @Override
     public HollowRecordJsonStringifier addExcludeObjectTypes(String... types) {
-        for (String type : types) {
-            this.excludeObjectTypes.add(type);
-        }
+      Collections.addAll(this.excludeObjectTypes, types);
         return this;
     }
 
@@ -379,17 +375,16 @@ public class HollowRecordJsonStringifier implements HollowStringifier<HollowReco
             case REFERENCE:
                 int refOrdinal = typeDataAccess.readOrdinal(ordinal, fieldIdx);
                 appendStringify(writer, dataAccess, schema.getReferencedType(fieldIdx), refOrdinal, indentation);
-                return;
         }
     }
 
-    private String escapeString(String str) {
+    private static String escapeString(String str) {
         if(str.indexOf('\\') == -1 && str.indexOf('\"') == -1)
             return str;
         return str.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
-    private void appendIndentation(Writer writer, int indentation) throws IOException {
+    private static void appendIndentation(Writer writer, int indentation) throws IOException {
         switch(indentation) {
             case 0:
                 return;

@@ -237,7 +237,7 @@ public class SegmentedByteArray implements ByteData {
         }
     }
 
-    private void orderedCopy(byte[] src, int srcPos, byte[] dest, int destPos, int length) {
+    private static void orderedCopy(byte[] src, int srcPos, byte[] dest, int destPos, int length) {
         int endSrcPos = srcPos + length;
         destPos += Unsafe.ARRAY_BYTE_BASE_OFFSET;
 

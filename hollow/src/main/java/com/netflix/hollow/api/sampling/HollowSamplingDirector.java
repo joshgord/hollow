@@ -23,7 +23,7 @@ public abstract class HollowSamplingDirector {
 
   public void setUpdateThread(Thread t) {}
 
-  protected boolean isUpdateThread() {
+  protected static boolean isUpdateThread() {
     return false;
   }
 }

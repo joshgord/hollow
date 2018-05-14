@@ -65,13 +65,13 @@ public class HollowListSchema extends HollowCollectionSchema {
         HollowListSchema otherSchema = (HollowListSchema)other;
         if(!getName().equals(otherSchema.getName()))
             return false;
-        
-        return getElementType().equals(otherSchema.getElementType());
+
+      return elementType.equals(otherSchema.elementType);
     }
     
     @Override
     public String toString() {
-        return getName() + " List<" + getElementType() + ">;";
+      return getName() + " List<" + elementType + ">;";
     }
     
     @Override
@@ -80,7 +80,7 @@ public class HollowListSchema extends HollowCollectionSchema {
 
         dos.write(SchemaType.LIST.getTypeId());
         dos.writeUTF(getName());
-        dos.writeUTF(getElementType());
+      dos.writeUTF(elementType);
     }
 
 }

@@ -70,7 +70,7 @@ public class HollowObjectCopier extends HollowRecordCopier {
                         rec.setDouble(fieldName, doubleVal);
                     break;
                 case FLOAT:
-                    float floatVal = (float)objectReadState.readFloat(ordinal, readFieldIndex);
+                    float floatVal = objectReadState.readFloat(ordinal, readFieldIndex);
                     if(!Float.isNaN(floatVal))
                         rec.setFloat(fieldName, floatVal);
                     break;

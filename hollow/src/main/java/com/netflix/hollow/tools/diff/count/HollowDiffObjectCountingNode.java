@@ -40,8 +40,6 @@ public class HollowDiffObjectCountingNode extends HollowDiffCountingNode {
 
     private final HollowObjectTypeReadState fromState;
     private final HollowObjectTypeReadState toState;
-    private final HollowObjectSchema fromSchema;
-    private final HollowObjectSchema toSchema;
     private final HollowObjectSchema unionSchema;
 
     private final int[] fromFieldMapping;
@@ -54,11 +52,14 @@ public class HollowDiffObjectCountingNode extends HollowDiffCountingNode {
         super(diff, topLevelTypeDiff, nodeId);
         this.fromState = fromState;
         this.toState = toState;
-        this.fromSchema = fromState == null ? emptySchema(toState.getSchema()) : fromState.getSchema();
-        this.toSchema = toState == null ? emptySchema(fromState.getSchema()) : toState.getSchema();
+        HollowObjectSchema fromSchema =
+            fromState == null ? emptySchema(toState.getSchema()) : fromState.getSchema();
+        HollowObjectSchema toSchema =
+            toState == null ? emptySchema(fromState.getSchema()) : toState.getSchema();
 
         if(!fromSchema.getName().equals(toSchema.getName()))
-            throw new IllegalArgumentException("Cannot diff between two schemas with different names: from '" + fromSchema.getName() + "' to '" + toSchema.getName() + "'");
+            throw new IllegalArgumentException("Cannot diff between two schemas with different names: from '" + fromSchema
+                .getName() + "' to '" + toSchema.getName() + "'");
 
         this.unionSchema = fromSchema.findUnionSchema(toSchema);
         this.fieldNodes = new HollowDiffCountingNode[unionSchema.numFields()];
@@ -87,7 +88,7 @@ public class HollowDiffObjectCountingNode extends HollowDiffCountingNode {
         }
     }
 
-    private HollowObjectSchema emptySchema(HollowObjectSchema other) {
+    private static HollowObjectSchema emptySchema(HollowObjectSchema other) {
         return new HollowObjectSchema(other.getName(), 0);
     }
 
@@ -186,7 +187,8 @@ public class HollowDiffObjectCountingNode extends HollowDiffCountingNode {
         return score;
     }
 
-    private int[] createFieldMapping(HollowObjectSchema unionSchema, HollowObjectSchema individualSchema) {
+    private static int[] createFieldMapping(HollowObjectSchema unionSchema,
+        HollowObjectSchema individualSchema) {
         int mapping[] = new int[unionSchema.numFields()];
         for(int i=0;i<unionSchema.numFields();i++) {
             String fieldName = unionSchema.getFieldName(i);

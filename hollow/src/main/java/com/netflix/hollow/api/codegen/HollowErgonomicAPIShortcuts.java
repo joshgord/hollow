@@ -71,7 +71,7 @@ public class HollowErgonomicAPIShortcuts {
         }
     }
     
-    private Shortcut getShortcutFieldPath(HollowDataset dataset, HollowSchema schema) {
+    private static Shortcut getShortcutFieldPath(HollowDataset dataset, HollowSchema schema) {
         if(schema.getSchemaType() == SchemaType.OBJECT) {
             HollowObjectSchema objSchema = (HollowObjectSchema)schema;
             if(objSchema.numFields() == 1) {
@@ -101,7 +101,7 @@ public class HollowErgonomicAPIShortcuts {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for(Map.Entry<String, Shortcut> entry : shortcutFieldPaths.entrySet()) {
-            builder.append(entry.getKey() + ": " + entry.getValue()).append("\n");
+            builder.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
         }
         return builder.toString();
     }

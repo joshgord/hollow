@@ -45,7 +45,7 @@ import java.util.Collection;
  *
  */
 public class DuplicateDataDetectionValidator implements Nameable, Validator {
-	private final String NAME = "DuplicateDataDetectionValidator";
+	private static final String NAME = "DuplicateDataDetectionValidator";
 	
 	private final String dataTypeName;
 	private final String[] fieldPathNames;
@@ -107,13 +107,12 @@ public class DuplicateDataDetectionValidator implements Nameable, Validator {
 	public String toString(){
 		if(lastRunStatus != null) {
 			// For now only return message and additional data
-			StringBuffer msg = new StringBuffer(lastRunStatus.getMessage());
-			return  msg.append(lastRunStatus.getAdditionalInfo()).toString();
+			return lastRunStatus.getMessage() + lastRunStatus.getAdditionalInfo();
 		}
 		return("DuplicateDataDetectionValidator status for "+dataTypeName+" is null. This is unexpected. Please check validator definition.");
 	}
 	
-	private String getDuplicateIDsString(Collection<Object[]> dupKeysCollection) {
+	private static String getDuplicateIDsString(Collection<Object[]> dupKeysCollection) {
 		StringBuilder message = new StringBuilder();
         for (Object[] ids: dupKeysCollection) {
         	message.append(Arrays.toString(ids)).append(",");

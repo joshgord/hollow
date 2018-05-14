@@ -300,7 +300,7 @@ public class HollowStateDeltaPatcher {
        return toBitSet(populatedOrdinalsWithDifferentRecords);
     }
     
-    private BitSet toBitSet(ThreadSafeBitSet tsbs) {
+    private static BitSet toBitSet(ThreadSafeBitSet tsbs) {
         BitSet bs = new BitSet(tsbs.currentCapacity());
         
         int bit = tsbs.nextSetBit(0);
@@ -316,7 +316,8 @@ public class HollowStateDeltaPatcher {
         boolean recordsAreEqual(int ordinal);
     }
     
-    private EqualityCondition objectRecordEquality(HollowTypeReadState fromState, HollowTypeReadState toState) {
+    private static EqualityCondition objectRecordEquality(HollowTypeReadState fromState,
+        HollowTypeReadState toState) {
         final HollowObjectTypeReadState fromObjectState = (HollowObjectTypeReadState)fromState;
         final HollowObjectTypeReadState toObjectState = (HollowObjectTypeReadState)toState;
 
@@ -342,7 +343,8 @@ public class HollowStateDeltaPatcher {
         };
     }
     
-    private EqualityCondition listRecordEquality(HollowTypeReadState fromState, HollowTypeReadState toState) {
+    private static EqualityCondition listRecordEquality(HollowTypeReadState fromState,
+        HollowTypeReadState toState) {
         final HollowListTypeReadState fromListState = (HollowListTypeReadState)fromState;
         final HollowListTypeReadState toListState = (HollowListTypeReadState)toState;
         
@@ -362,7 +364,8 @@ public class HollowStateDeltaPatcher {
         };
     }
 
-    private EqualityCondition setRecordEquality(HollowTypeReadState fromState, HollowTypeReadState toState) {
+    private static EqualityCondition setRecordEquality(HollowTypeReadState fromState,
+        HollowTypeReadState toState) {
         final HollowSetTypeReadState fromSetState = (HollowSetTypeReadState)fromState;
         final HollowSetTypeReadState toSetState = (HollowSetTypeReadState)toState;
         
@@ -400,7 +403,8 @@ public class HollowStateDeltaPatcher {
         };
     }
     
-    private EqualityCondition mapRecordEquality(HollowTypeReadState fromState, HollowTypeReadState toState) {
+    private static EqualityCondition mapRecordEquality(HollowTypeReadState fromState,
+        HollowTypeReadState toState) {
         final HollowMapTypeReadState fromMapState = (HollowMapTypeReadState) fromState;
         final HollowMapTypeReadState toMapState = (HollowMapTypeReadState) toState;
         
@@ -432,12 +436,14 @@ public class HollowStateDeltaPatcher {
         };
     }
     
-    private void ensureEqualSchemas(HollowTypeReadState fromState, HollowTypeReadState toState) {
+    private static void ensureEqualSchemas(HollowTypeReadState fromState,
+        HollowTypeReadState toState) {
         if(!fromState.getSchema().equals(toState.getSchema()))
             throw new IllegalStateException("FROM and TO schemas were not the same: " + fromState.getSchema().getName());
     }
     
-    private Set<HollowSchema> getCommonSchemas(HollowReadStateEngine from, HollowReadStateEngine to) {
+    private static Set<HollowSchema> getCommonSchemas(HollowReadStateEngine from,
+        HollowReadStateEngine to) {
         Set<HollowSchema> schemas = new HashSet<HollowSchema>();
         
         for(HollowSchema fromSchema : from.getSchemas()) {

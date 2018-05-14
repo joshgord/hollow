@@ -278,11 +278,10 @@ public class HollowReadStateEngine implements HollowStateEngine, HollowDataAcces
     private void populatedDefinedHashCodesTypesIfHeaderTagIsPresent() {
         String definedHashCodesTag = headerTags.get(HollowObjectHashCodeFinder.DEFINED_HASH_CODES_HEADER_NAME);
         if(definedHashCodesTag == null || "".equals(definedHashCodesTag)) {
-            this.typesWithDefinedHashCodes = Collections.<String>emptySet();
+            this.typesWithDefinedHashCodes = Collections.emptySet();
         } else {
             Set<String>definedHashCodeTypes = new HashSet<String>();
-            for(String type : definedHashCodesTag.split(","))
-                definedHashCodeTypes.add(type);
+          Collections.addAll(definedHashCodeTypes, definedHashCodesTag.split(","));
             this.typesWithDefinedHashCodes = definedHashCodeTypes;
         }
     }

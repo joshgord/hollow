@@ -36,7 +36,7 @@ public class HollowMapProxyDataAccess extends HollowTypeProxyDataAccess implemen
     }
 
     public void setCurrentDataAccess(HollowTypeDataAccess currentDataAccess) {
-        this.currentDataAccess = (HollowMapTypeDataAccess) currentDataAccess;
+        this.currentDataAccess = currentDataAccess;
     }
 
     @Override

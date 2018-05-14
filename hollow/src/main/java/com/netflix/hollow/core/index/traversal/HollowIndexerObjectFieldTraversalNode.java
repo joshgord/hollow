@@ -40,7 +40,7 @@ class HollowIndexerObjectFieldTraversalNode extends HollowIndexerTraversalNode {
 
     @Override
     protected HollowTypeDataAccess dataAccess() {
-        return (HollowObjectTypeDataAccess) dataAccess;
+        return dataAccess;
     }
 
     @Override

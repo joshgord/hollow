@@ -191,10 +191,6 @@ public class HollowClient {
         updater.clearFailedTransitions();
     }
 
-    public StackTraceRecorder getStaleReferenceUsageStackTraceRecorder() {
-        return updater.getStaleReferenceUsageStackTraceRecorder();
-    }
-
     /**
      * @return the {@link HollowReadStateEngine} which is holding the underlying hollow dataset.
      */

@@ -31,7 +31,7 @@ import com.netflix.hollow.core.schema.HollowMapSchema;
 import com.netflix.hollow.core.schema.HollowObjectSchema;
 import com.netflix.hollow.core.schema.HollowObjectSchema.FieldType;
 import com.netflix.hollow.core.schema.HollowSchema;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -62,12 +62,13 @@ public class HollowMapJavaGenerator extends HollowCollectionsGenerator {
     @Override
     public String generate() {
         StringBuilder builder = new StringBuilder();
-        appendPackageAndCommonImports(builder, apiClassname, Arrays.<HollowSchema>asList(schema));
+        appendPackageAndCommonImports(builder, apiClassname,
+            Collections.<HollowSchema>singletonList(schema));
 
-        builder.append("import " + HollowMap.class.getName() + ";\n");
-        builder.append("import " + HollowMapSchema.class.getName() + ";\n");
-        builder.append("import " + HollowMapDelegate.class.getName() + ";\n");
-        builder.append("import " + GenericHollowRecordHelper.class.getName() + ";\n\n");
+        builder.append("import ").append(HollowMap.class.getName()).append(";\n");
+        builder.append("import ").append(HollowMapSchema.class.getName()).append(";\n");
+        builder.append("import ").append(HollowMapDelegate.class.getName()).append(";\n");
+        builder.append("import ").append(GenericHollowRecordHelper.class.getName()).append(";\n\n");
 
         builder.append("@SuppressWarnings(\"all\")\n");
 
@@ -82,7 +83,9 @@ public class HollowMapJavaGenerator extends HollowCollectionsGenerator {
         else if(parameterizeValue)
             classGeneric = "<V>";
 
-        builder.append("public class " + className + classGeneric + " extends HollowMap<" + keyGeneric + ", " + valueGeneric + "> {\n\n");
+        builder.append("public class ").append(className).append(classGeneric)
+            .append(" extends HollowMap<").append(keyGeneric).append(", ").append(valueGeneric)
+            .append("> {\n\n");
 
         appendConstructor(builder);
         appendInstantiateMethods(builder);
@@ -97,7 +100,8 @@ public class HollowMapJavaGenerator extends HollowCollectionsGenerator {
     }
 
     private void appendConstructor(StringBuilder classBuilder) {
-        classBuilder.append("    public " + className + "(HollowMapDelegate delegate, int ordinal) {\n");
+        classBuilder.append("    public ").append(className)
+            .append("(HollowMapDelegate delegate, int ordinal) {\n");
         classBuilder.append("        super(delegate, ordinal);\n");
         classBuilder.append("    }\n\n");
     }
@@ -108,13 +112,15 @@ public class HollowMapJavaGenerator extends HollowCollectionsGenerator {
         String valueReturnType = parameterizeValue ? "V" : valueClassName;
 
         classBuilder.append("    @Override\n");
-        classBuilder.append("    public " + keyReturnType + " instantiateKey(int ordinal) {\n");
-        classBuilder.append("        return (" + keyReturnType + ") api().get").append(keyClassName).append("(ordinal);\n");
+        classBuilder.append("    public ").append(keyReturnType)
+            .append(" instantiateKey(int ordinal) {\n");
+        classBuilder.append("        return (").append(keyReturnType).append(") api().get").append(keyClassName).append("(ordinal);\n");
         classBuilder.append("    }\n\n");
 
         classBuilder.append("    @Override\n");
-        classBuilder.append("    public " + valueReturnType + " instantiateValue(int ordinal) {\n");
-        classBuilder.append("        return (" + valueReturnType + ") api().get").append(valueClassName).append("(ordinal);\n");
+        classBuilder.append("    public ").append(valueReturnType)
+            .append(" instantiateValue(int ordinal) {\n");
+        classBuilder.append("        return (").append(valueReturnType).append(") api().get").append(valueClassName).append("(ordinal);\n");
         classBuilder.append("    }\n\n");
     }
 
@@ -122,7 +128,7 @@ public class HollowMapJavaGenerator extends HollowCollectionsGenerator {
         if(schema.getHashKey() != null) {
             String valueReturnType = parameterizeValue ? "V" : valueClassName;
 
-            classBuilder.append("    public " + valueReturnType + " get(");
+            classBuilder.append("    public ").append(valueReturnType).append(" get(");
             classBuilder.append(getKeyFieldType(schema.getHashKey().getFieldPath(0))).append(" k0");
             for(int i=1;i<schema.getHashKey().numFields();i++)
                 classBuilder.append(", ").append(getKeyFieldType(schema.getHashKey().getFieldPath(i))).append(" k").append(i);
@@ -135,7 +141,7 @@ public class HollowMapJavaGenerator extends HollowCollectionsGenerator {
         }
     }
 
-    private void appendEqualityMethods(StringBuilder classBuilder) {
+    private static void appendEqualityMethods(StringBuilder classBuilder) {
         classBuilder.append("    @Override\n");
         classBuilder.append("    public boolean equalsKey(int keyOrdinal, Object testObject) {\n");
         classBuilder.append("        return GenericHollowRecordHelper.equalObject(getSchema().getKeyType(), keyOrdinal, testObject);\n");
@@ -148,14 +154,14 @@ public class HollowMapJavaGenerator extends HollowCollectionsGenerator {
     }
 
     private void appendAPIAccessor(StringBuilder classBuilder) {
-        classBuilder.append("    public " + apiClassname + " api() {\n");
+        classBuilder.append("    public ").append(apiClassname).append(" api() {\n");
         classBuilder.append("        return typeApi().getAPI();\n");
         classBuilder.append("    }\n\n");
     }
 
     private void appendTypeAPIAccessor(StringBuilder classBuilder) {
         String typeAPIClassname = typeAPIClassname(schema.getName());
-        classBuilder.append("    public " + typeAPIClassname + " typeApi() {\n");
+        classBuilder.append("    public ").append(typeAPIClassname).append(" typeApi() {\n");
         classBuilder.append("        return (").append(typeAPIClassname).append(") delegate.getTypeAPI();\n");
         classBuilder.append("    }\n\n");
     }

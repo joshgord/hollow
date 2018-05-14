@@ -137,7 +137,7 @@ public abstract class HollowConsumerJavaFileGenerator implements HollowJavaFileG
 
     }
 
-    private boolean isEmpty(String value) {
+    private static boolean isEmpty(String value) {
         return value == null || value.trim().isEmpty();
     }
 

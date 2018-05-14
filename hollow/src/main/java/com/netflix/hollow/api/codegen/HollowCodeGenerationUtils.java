@@ -237,12 +237,9 @@ public class HollowCodeGenerationUtils {
         if(str == null || str.length() == 0)
             return str;
 
-        StringBuilder builder = new StringBuilder();
-
-        builder.append(str.substring(0, 1).toLowerCase());
-        builder.append(str.substring(1));
-
-        return builder.toString();
+      String builder = str.substring(0, 1).toLowerCase()
+          + str.substring(1);
+      return builder;
     }
 
     public static String uppercase(String str) {
@@ -253,12 +250,9 @@ public class HollowCodeGenerationUtils {
         if(str == null || str.length() == 0)
             return str;
 
-        StringBuilder builder = new StringBuilder();
-
-        builder.append(str.substring(0, 1).toUpperCase());
-        builder.append(str.substring(1));
-
-        return builder.toString();
+      String builder = str.substring(0, 1).toUpperCase()
+          + str.substring(1);
+      return builder;
     }
 
     public static String substituteInvalidChars(String str) {

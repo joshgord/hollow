@@ -124,7 +124,9 @@ public class HollowObjectDelegateCachedImplGenerator extends HollowObjectDelegat
 
                     for(int j=0;j<shortcut.getPath().length-1;j++) {
                         String typeAPIName = HollowCodeGenerationUtils.typeAPIClassname(shortcut.getPathTypes()[j]);
-                        builder.append("        " + ordinalVariableName + " = " + ordinalVariableName + " == -1 ? -1 : typeAPI.getAPI().get").append(typeAPIName).append("().get").append(uppercase(shortcut.getPath()[j])).append("Ordinal(").append(ordinalVariableName).append(");\n");
+                        builder.append("        ").append(ordinalVariableName).append(" = ")
+                            .append(ordinalVariableName)
+                            .append(" == -1 ? -1 : typeAPI.getAPI().get").append(typeAPIName).append("().get").append(uppercase(shortcut.getPath()[j])).append("Ordinal(").append(ordinalVariableName).append(");\n");
                     }
 
                     String typeAPIName = HollowCodeGenerationUtils.typeAPIClassname(shortcut.getPathTypes()[shortcut.getPathTypes().length-1]);
@@ -175,7 +177,7 @@ public class HollowObjectDelegateCachedImplGenerator extends HollowObjectDelegat
         return builder.toString();
     }
 
-    private void addAccessor(StringBuilder builder, FieldType fieldType, String fieldName) {
+    private static void addAccessor(StringBuilder builder, FieldType fieldType, String fieldName) {
         switch(fieldType) {
         case BOOLEAN:
             builder.append("    public boolean get").append(uppercase(fieldName)).append("(int ordinal) {\n");

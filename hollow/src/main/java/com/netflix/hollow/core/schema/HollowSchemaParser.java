@@ -276,7 +276,7 @@ public class HollowSchemaParser {
 
         tok = tokenizer.nextToken();
 
-        return fieldPaths.toArray(new String[fieldPaths.size()]);
+        return fieldPaths.toArray(new String[0]);
     }
 
 

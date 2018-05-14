@@ -157,7 +157,7 @@ public class HollowObjectSchema extends HollowSchema {
             }
         }
 
-        PrimaryKey primaryKey = isNullableObjectEquals(this.primaryKey, otherSchema.getPrimaryKey()) ? this.primaryKey : null;
+      PrimaryKey primaryKey = isNullableObjectEquals(this.primaryKey, otherSchema.primaryKey) ? this.primaryKey : null;
         HollowObjectSchema commonSchema = new HollowObjectSchema(getName(), commonFields, primaryKey);
 
         for (int i = 0; i < fieldNames.length; i++) {
@@ -192,7 +192,7 @@ public class HollowObjectSchema extends HollowSchema {
                 totalFields++;
         }
 
-        PrimaryKey primaryKey = isNullableObjectEquals(this.primaryKey, otherSchema.getPrimaryKey()) ? this.primaryKey : null;
+      PrimaryKey primaryKey = isNullableObjectEquals(this.primaryKey, otherSchema.primaryKey) ? this.primaryKey : null;
         HollowObjectSchema unionSchema = new HollowObjectSchema(getName(), totalFields, primaryKey);
 
         for(int i=0;i<fieldNames.length;i++) {
@@ -228,7 +228,7 @@ public class HollowObjectSchema extends HollowSchema {
         return filteredSchema;
     }
 
-    private boolean referencedTypesEqual(String type1, String type2) {
+    private static boolean referencedTypesEqual(String type1, String type2) {
         if(type1 == null)
             return type2 == null;
         return type1.equals(type2);
@@ -249,7 +249,7 @@ public class HollowObjectSchema extends HollowSchema {
         if(otherSchema.numFields() != numFields())
             return false;
 
-        if (!isNullableObjectEquals(primaryKey, otherSchema.getPrimaryKey()))
+      if (!isNullableObjectEquals(primaryKey, otherSchema.primaryKey))
             return false;
 
         for(int i=0;i<numFields();i++) {

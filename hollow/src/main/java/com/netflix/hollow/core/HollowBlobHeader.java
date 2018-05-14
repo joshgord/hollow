@@ -96,7 +96,7 @@ public class HollowBlobHeader {
     public boolean equals(Object other) {
         if(other instanceof HollowBlobHeader) {
             HollowBlobHeader oh = (HollowBlobHeader)other;
-            return headerTags.equals(oh.getHeaderTags())
+          return headerTags.equals(oh.headerTags)
                     && originRandomizedTag == oh.originRandomizedTag
                     && destinationRandomizedTag == oh.destinationRandomizedTag;
         }

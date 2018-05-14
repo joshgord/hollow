@@ -663,7 +663,7 @@ public class HollowProducer {
         }
     }
 
-    private void readSnapshot(Blob blob, HollowReadStateEngine stateEngine) throws IOException {
+    private static void readSnapshot(Blob blob, HollowReadStateEngine stateEngine) throws IOException {
         InputStream is = blob.newInputStream();
         try {
             new HollowBlobReader(stateEngine, new HollowBlobHeaderReader()).readSnapshot(is);
@@ -672,7 +672,7 @@ public class HollowProducer {
         }
     }
 
-    private void applyDelta(Blob blob, HollowReadStateEngine stateEngine) throws IOException {
+    private static void applyDelta(Blob blob, HollowReadStateEngine stateEngine) throws IOException {
         InputStream is = blob.newInputStream();
         try {
             new HollowBlobReader(stateEngine, new HollowBlobHeaderReader()).applyDelta(is);
@@ -711,7 +711,8 @@ public class HollowProducer {
     	}
     }
 
-	private SingleValidationStatus getValidationStatus(HollowProducer.ReadState readState, Validator validator, Throwable throwable) {
+	private static SingleValidationStatus getValidationStatus(HollowProducer.ReadState readState,
+      Validator validator, Throwable throwable) {
 		String name = (validator instanceof Nameable)? ((Nameable)validator).getName():"";
 		SingleValidationStatusBuilder status = SingleValidationStatus.builder(name).withMessage(validator.toString());
 		if(throwable != null) {
@@ -1053,8 +1054,7 @@ public class HollowProducer {
         }
         
         public B withValidators(HollowProducer.Validator... validators) {
-            for(Validator validator : validators)
-                this.validators.add(validator);
+            Collections.addAll(this.validators, validators);
             return (B)this;
         }
         
@@ -1064,14 +1064,12 @@ public class HollowProducer {
         }
         
         public B withListeners(HollowProducerListener... listeners) {
-            for(HollowProducerListener listener : listeners)
-                this.listeners.add(listener);
+            Collections.addAll(this.listeners, listeners);
             return (B)this;
         }
         
         public B withValidationListeners(HollowValidationListener... listeners) {
-            for(HollowValidationListener listener : listeners)
-                this.validationListeners.add(listener);
+            Collections.addAll(this.validationListeners, listeners);
             return (B)this;
         }
         

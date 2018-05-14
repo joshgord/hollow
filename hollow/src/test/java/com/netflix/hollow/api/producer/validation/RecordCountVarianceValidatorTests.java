@@ -131,8 +131,10 @@ public class RecordCountVarianceValidatorTests {
 	@Test
 	public void testGetChangePercent(){
 		RecordCountVarianceValidator val = new RecordCountVarianceValidator("someType", 3.0f);
-		Assert.assertTrue((Float.compare(99.99999652463547f, val.getChangePercent(0, 28382664)) == 0));
-		Assert.assertTrue((Float.compare(99.646645f, val.getChangePercent(1, 283)) == 0));
+		Assert.assertTrue((Float.compare(99.99999652463547f, RecordCountVarianceValidator
+        .getChangePercent(0, 28382664)) == 0));
+		Assert.assertTrue((Float.compare(99.646645f, RecordCountVarianceValidator
+        .getChangePercent(1, 283)) == 0));
 		
 	}
 }

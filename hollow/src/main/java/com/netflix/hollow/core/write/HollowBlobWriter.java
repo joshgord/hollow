@@ -34,11 +34,10 @@ import java.util.List;
 public class HollowBlobWriter {
 
     private final HollowWriteStateEngine stateEngine;
-    private final HollowBlobHeaderWriter headerWriter;
 
     public HollowBlobWriter(HollowWriteStateEngine stateEngine) {
         this.stateEngine = stateEngine;
-        this.headerWriter = new HollowBlobHeaderWriter();
+        HollowBlobHeaderWriter headerWriter = new HollowBlobHeaderWriter();
     }
 
     /**
@@ -186,7 +185,7 @@ public class HollowBlobWriter {
         return changedTypes;
     }
     
-    private void writeNumShards(DataOutputStream dos, int numShards) throws IOException {
+    private static void writeNumShards(DataOutputStream dos, int numShards) throws IOException {
         VarInt.writeVInt(dos, 1 + VarInt.sizeOfVInt(numShards)); /// pre 2.1.0 forwards compatibility:
                                                                  /// skip new forwards-compatibility and num shards
         
@@ -206,6 +205,6 @@ public class HollowBlobWriter {
             header.setDestinationRandomizedTag(stateEngine.getNextStateRandomizedTag());
         }
         header.setSchemas(schemasToInclude);
-        headerWriter.writeHeader(header, os);
+        HollowBlobHeaderWriter.writeHeader(header, os);
     }
 }

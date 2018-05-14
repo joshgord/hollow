@@ -62,7 +62,7 @@ public class HollowCombinerOrdinalRemapper implements OrdinalRemapper {
         return typeMappings.get(type)[originalOrdinal] != -1;
     }
 
-    private Map<String, int[]> initializeTypeMappings(HollowReadStateEngine inputStateEngine) {
+    private static Map<String, int[]> initializeTypeMappings(HollowReadStateEngine inputStateEngine) {
         Map<String, int[]> typeMappings = new HashMap<String, int[]>();
         for(HollowTypeReadState typeState : inputStateEngine.getTypeStates()) {
             int mapping[] = new int[typeState.maxOrdinal() + 1];

@@ -83,7 +83,7 @@ public class HollowBlobHeaderReader {
      * @param dis
      * @throws IOException
      */
-    private Map<String, String> readHeaderTags(DataInputStream dis) throws IOException {
+    private static Map<String, String> readHeaderTags(DataInputStream dis) throws IOException {
         int numHeaderTags = dis.readShort();
         Map<String, String> headerTags = new HashMap<String, String>();
         for (int i = 0; i < numHeaderTags; i++) {

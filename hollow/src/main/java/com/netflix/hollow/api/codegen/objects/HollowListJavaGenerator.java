@@ -28,7 +28,7 @@ import com.netflix.hollow.api.objects.generic.GenericHollowRecordHelper;
 import com.netflix.hollow.core.HollowDataset;
 import com.netflix.hollow.core.schema.HollowListSchema;
 import com.netflix.hollow.core.schema.HollowSchema;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -55,18 +55,21 @@ public class HollowListJavaGenerator extends HollowCollectionsGenerator {
     @Override
     public String generate() {
         StringBuilder builder = new StringBuilder();
-        appendPackageAndCommonImports(builder, apiClassname, Arrays.<HollowSchema>asList(schema));
+        appendPackageAndCommonImports(builder, apiClassname,
+            Collections.<HollowSchema>singletonList(schema));
 
-        builder.append("import " + HollowList.class.getName() + ";\n");
-        builder.append("import " + HollowListSchema.class.getName() + ";\n");
-        builder.append("import " + HollowListDelegate.class.getName() + ";\n");
-        builder.append("import " + GenericHollowRecordHelper.class.getName() + ";\n\n");
+        builder.append("import ").append(HollowList.class.getName()).append(";\n");
+        builder.append("import ").append(HollowListSchema.class.getName()).append(";\n");
+        builder.append("import ").append(HollowListDelegate.class.getName()).append(";\n");
+        builder.append("import ").append(GenericHollowRecordHelper.class.getName()).append(";\n\n");
 
         builder.append("@SuppressWarnings(\"all\")\n");
         if(parameterize)
-            builder.append("public class " + className + "<T> extends HollowList<T> {\n\n");
+            builder.append("public class ").append(className)
+                .append("<T> extends HollowList<T> {\n\n");
         else
-            builder.append("public class " + className + " extends HollowList<" + elementClassName + "> {\n\n");
+            builder.append("public class ").append(className).append(" extends HollowList<")
+                .append(elementClassName).append("> {\n\n");
 
         appendConstructor(builder);
         appendInstantiateMethod(builder);
@@ -80,7 +83,8 @@ public class HollowListJavaGenerator extends HollowCollectionsGenerator {
     }
 
     private void appendConstructor(StringBuilder classBuilder) {
-        classBuilder.append("    public " + className + "(HollowListDelegate delegate, int ordinal) {\n");
+        classBuilder.append("    public ").append(className)
+            .append("(HollowListDelegate delegate, int ordinal) {\n");
         classBuilder.append("        super(delegate, ordinal);\n");
         classBuilder.append("    }\n\n");
     }
@@ -94,7 +98,7 @@ public class HollowListJavaGenerator extends HollowCollectionsGenerator {
         classBuilder.append("    }\n\n");
     }
 
-    private void appendEqualityMethod(StringBuilder classBuilder) {
+    private static void appendEqualityMethod(StringBuilder classBuilder) {
         classBuilder.append("    @Override\n");
         classBuilder.append("    public boolean equalsElement(int elementOrdinal, Object testObject) {\n");
         classBuilder.append("        return GenericHollowRecordHelper.equalObject(getSchema().getElementType(), elementOrdinal, testObject);\n");
@@ -102,14 +106,14 @@ public class HollowListJavaGenerator extends HollowCollectionsGenerator {
     }
 
     private void appendAPIAccessor(StringBuilder classBuilder) {
-        classBuilder.append("    public " + apiClassname + " api() {\n");
+        classBuilder.append("    public ").append(apiClassname).append(" api() {\n");
         classBuilder.append("        return typeApi().getAPI();\n");
         classBuilder.append("    }\n\n");
     }
 
     private void appendTypeAPIAccessor(StringBuilder classBuilder) {
         String typeAPIClassname = typeAPIClassname(schema.getName());
-        classBuilder.append("    public " + typeAPIClassname + " typeApi() {\n");
+        classBuilder.append("    public ").append(typeAPIClassname).append(" typeApi() {\n");
         classBuilder.append("        return (").append(typeAPIClassname).append(") delegate.getTypeAPI();\n");
         classBuilder.append("    }\n\n");
     }

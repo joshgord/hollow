@@ -195,8 +195,7 @@ public class HollowCombiner {
      * Specify a set of types not to copy.  Be careful: if any included types reference any of the specified types, behavior is undefined.
      */
     public void addIgnoredTypes(String... typeNames) {
-        for(String typeName : typeNames)
-            ignoredTypes.add(typeName);
+      Collections.addAll(ignoredTypes, typeNames);
     }
 
     /**

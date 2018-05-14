@@ -73,7 +73,7 @@ public class HollowAPI {
     public List<SampleResult> getAccessSampleResults() {
         List<SampleResult> sampleResults = new ArrayList<SampleResult>();
         for(HollowTypeAPI typeAPI : typeAPIs) {
-            sampleResults.addAll(typeAPI.getAccessSampleResults());
+            sampleResults.addAll(HollowTypeAPI.getAccessSampleResults());
         }
 
         Collections.sort(sampleResults);
@@ -85,7 +85,7 @@ public class HollowAPI {
         List<SampleResult> sampleResults = new ArrayList<SampleResult>();
         for(HollowTypeAPI typeAPI : typeAPIs) {
             if(typeAPI instanceof HollowObjectTypeAPI) {
-                sampleResults.addAll(((HollowObjectTypeAPI)typeAPI).getBoxedFieldAccessSampler().getSampleResults());
+                sampleResults.addAll(HollowObjectTypeAPI.getBoxedFieldAccessSampler().getSampleResults());
             }
         }
 

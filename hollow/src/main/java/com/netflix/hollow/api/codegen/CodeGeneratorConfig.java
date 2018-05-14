@@ -168,33 +168,30 @@ public class CodeGeneratorConfig {
             return false;
         if (usePackageGrouping != other.usePackageGrouping)
             return false;
-        if (useVerboseToString != other.useVerboseToString)
-            return false;
-        return true;
+        return useVerboseToString == other.useVerboseToString;
     }
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("CodeGeneratorConfig [classPostfix=");
-        builder.append(classPostfix);
-        builder.append(", getterPrefix=");
-        builder.append(getterPrefix);
-        builder.append(", usePackageGrouping=");
-        builder.append(usePackageGrouping);
-        builder.append(", useAggressiveSubstitutions=");
-        builder.append(useAggressiveSubstitutions);
-        builder.append(", useBooleanFieldErgonomics=");
-        builder.append(useBooleanFieldErgonomics);
-        builder.append(", reservePrimaryKeyIndexForTypeWithPrimaryKey=");
-        builder.append(reservePrimaryKeyIndexForTypeWithPrimaryKey);
-        builder.append(", useHollowPrimitiveTypes=");
-        builder.append(useHollowPrimitiveTypes);
-        builder.append(", restrictApiToFieldType=");
-        builder.append(restrictApiToFieldType);
-        builder.append(", useVerboseToString=");
-        builder.append(useVerboseToString);
-        builder.append("]");
-        return builder.toString();
+      String builder = "CodeGeneratorConfig [classPostfix="
+          + classPostfix
+          + ", getterPrefix="
+          + getterPrefix
+          + ", usePackageGrouping="
+          + usePackageGrouping
+          + ", useAggressiveSubstitutions="
+          + useAggressiveSubstitutions
+          + ", useBooleanFieldErgonomics="
+          + useBooleanFieldErgonomics
+          + ", reservePrimaryKeyIndexForTypeWithPrimaryKey="
+          + reservePrimaryKeyIndexForTypeWithPrimaryKey
+          + ", useHollowPrimitiveTypes="
+          + useHollowPrimitiveTypes
+          + ", restrictApiToFieldType="
+          + restrictApiToFieldType
+          + ", useVerboseToString="
+          + useVerboseToString
+          + "]";
+      return builder;
     }
 }

@@ -55,14 +55,13 @@ public class AllValidationStatus {
 	
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("OverallValidationStatus [");
-		sb.append(" status=");
-		sb.append(status);
-		sb.append(", validationStatusList=");
-		sb.append(validationStatusList);
-		sb.append("]");
-		return sb.toString();
+    String sb = "OverallValidationStatus ["
+        + " status="
+        + status
+        + ", validationStatusList="
+        + validationStatusList
+        + "]";
+    return sb;
 	}
 
 	/**

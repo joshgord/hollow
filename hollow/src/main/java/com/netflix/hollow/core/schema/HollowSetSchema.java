@@ -75,16 +75,16 @@ public class HollowSetSchema extends HollowCollectionSchema {
         HollowSetSchema otherSchema = (HollowSetSchema)other;
         if(!getName().equals(otherSchema.getName()))
             return false;
-        if(!getElementType().equals(otherSchema.getElementType()))
+      if(!elementType.equals(otherSchema.elementType))
             return false;
 
-        return isNullableObjectEquals(hashKey, otherSchema.getHashKey());
+      return isNullableObjectEquals(hashKey, otherSchema.hashKey);
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(getName());
-        builder.append(" Set<").append(getElementType()).append(">");
+      builder.append(" Set<").append(elementType).append(">");
 
         if(hashKey != null) {
             builder.append(" @HashKey(");
@@ -105,18 +105,18 @@ public class HollowSetSchema extends HollowCollectionSchema {
     public void writeTo(OutputStream os) throws IOException {
         DataOutputStream dos = new DataOutputStream(os);
 
-        if(getHashKey() != null)
+      if(hashKey != null)
             dos.write(SchemaType.SET.getTypeIdWithPrimaryKey());
         else
             dos.write(SchemaType.SET.getTypeId());
 
         dos.writeUTF(getName());
-        dos.writeUTF(getElementType());
+      dos.writeUTF(elementType);
 
-        if(getHashKey() != null) {
-            VarInt.writeVInt(dos, getHashKey().numFields());
-            for(int i=0;i<getHashKey().numFields();i++) {
-                dos.writeUTF(getHashKey().getFieldPath(i));
+      if(hashKey != null) {
+        VarInt.writeVInt(dos, hashKey.numFields());
+        for(int i=0;i< hashKey.numFields();i++) {
+          dos.writeUTF(hashKey.getFieldPath(i));
             }
         }
     }

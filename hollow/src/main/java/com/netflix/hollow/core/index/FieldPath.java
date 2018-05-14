@@ -32,6 +32,7 @@ import com.netflix.hollow.core.schema.HollowMapSchema;
 import com.netflix.hollow.core.schema.HollowObjectSchema;
 import com.netflix.hollow.core.schema.HollowSchema;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -142,7 +143,7 @@ public class FieldPath {
 
             } else if (schemaType.equals(SchemaType.LIST) || schemaType.equals(SchemaType.SET)) {
 
-                if (autoExpand && (i >= fieldParts.length || (i < fieldParts.length && !fieldParts[i].equals("element")))) {
+                if (autoExpand && (i >= fieldParts.length || !fieldParts[i].equals("element"))) {
                     fieldName = "element";
                 } else {
                     fieldName = fieldParts[i];
@@ -172,10 +173,10 @@ public class FieldPath {
             fieldTypes.add(fieldType);
         }
 
-        this.fields = fields.toArray(new String[fields.size()]);
+        this.fields = fields.toArray(new String[0]);
         this.fieldPositions = new int[fieldPositions.size()];
         for (i = 0; i < fieldPositions.size(); i++) this.fieldPositions[i] = fieldPositions.get(i);
-        this.fieldTypes = fieldTypes.toArray(new FieldType[fieldTypes.size()]);
+        this.fieldTypes = fieldTypes.toArray(new FieldType[0]);
         this.lastRefTypeInPath = lastRefType;
     }
 
@@ -280,8 +281,7 @@ public class FieldPath {
             int refOrdinal = it.next();
             while (refOrdinal != HollowOrdinalIterator.NO_MORE_ORDINALS) {
                 Object[] refValues = getAllValues(refOrdinal, elementType, fieldIndex + 1);
-                for (Object value : refValues)
-                    valueList.add(value);
+              Collections.addAll(valueList, refValues);
                 refOrdinal = it.next();
             }
             values = new Object[valueList.size()];
@@ -301,8 +301,7 @@ public class FieldPath {
             while (mapEntryIterator.next()) {
                 int keyOrValueOrdinal = iterateThroughKeys ? mapEntryIterator.getKey() : mapEntryIterator.getValue();
                 Object[] refValues = getAllValues(keyOrValueOrdinal, keyOrValueType, fieldIndex + 1);
-                for (Object value : refValues)
-                    valueList.add(value);
+              Collections.addAll(valueList, refValues);
             }
             values = new Object[valueList.size()];
             valueList.toArray(values);
@@ -327,7 +326,8 @@ public class FieldPath {
         return values;
     }
 
-    private Object readFromObject(HollowObjectTypeDataAccess objectTypeDataAccess, int ordinal, FieldType fieldType, int fieldPosition) {
+    private static Object readFromObject(HollowObjectTypeDataAccess objectTypeDataAccess,
+        int ordinal, FieldType fieldType, int fieldPosition) {
         Object value;
         switch (fieldType) {
             case INT:

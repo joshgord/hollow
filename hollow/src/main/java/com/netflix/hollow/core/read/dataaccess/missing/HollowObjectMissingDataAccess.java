@@ -17,6 +17,7 @@
  */
 package com.netflix.hollow.core.read.dataaccess.missing;
 
+import com.netflix.hollow.api.sampling.DisabledSampler;
 import com.netflix.hollow.api.sampling.HollowObjectSampler;
 import com.netflix.hollow.api.sampling.HollowSampler;
 import com.netflix.hollow.api.sampling.HollowSamplingDirector;
@@ -139,7 +140,7 @@ public class HollowObjectMissingDataAccess implements HollowObjectTypeDataAccess
 
     @Override
     public HollowSampler getSampler() {
-        return HollowObjectSampler.NULL_SAMPLER;
+        return DisabledSampler.getInstance();
     }
 
 }

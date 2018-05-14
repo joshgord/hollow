@@ -78,11 +78,14 @@ public class HollowPrimaryKeyIndexGenerator extends HollowUniqueKeyIndexGenerato
             fieldNamesAsStr.append(fieldNames.get(i));
         }
 
-        builder.append("    public " + hollowImplClassname(schema.getName()) + " findMatch(" + paramsAsStr + ") {\n");
-        builder.append("        int ordinal = idx.getMatchingOrdinal(" + fieldNamesAsStr + ");\n");
+        builder.append("    public ").append(hollowImplClassname(schema.getName()))
+            .append(" findMatch(").append(paramsAsStr).append(") {\n");
+        builder.append("        int ordinal = idx.getMatchingOrdinal(").append(fieldNamesAsStr)
+            .append(");\n");
         builder.append("        if(ordinal == -1)\n");
         builder.append("            return null;\n");
-        builder.append("        return api.get" + hollowImplClassname(schema.getName()) + "(ordinal);\n");
+        builder.append("        return api.get").append(hollowImplClassname(schema.getName()))
+            .append("(ordinal);\n");
         builder.append("    }\n\n");
     }
 }

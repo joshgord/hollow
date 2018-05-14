@@ -61,7 +61,7 @@ public abstract class HollowTypeAPI {
         typeDataAccess.ignoreUpdateThreadForSampling(t);
     }
 
-    public Collection<SampleResult> getAccessSampleResults() {
+    public static Collection<SampleResult> getAccessSampleResults() {
         return Collections.emptyList();
     }
 

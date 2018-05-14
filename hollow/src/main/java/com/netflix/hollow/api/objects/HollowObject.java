@@ -101,7 +101,7 @@ public abstract class HollowObject implements HollowRecord {
         if(obj instanceof HollowObject) {
             HollowObject hollowObj = (HollowObject)obj;
 
-            if(ordinal == hollowObj.getOrdinal()) {
+          if(ordinal == hollowObj.ordinal) {
                 String otherType = hollowObj.getSchema().getName();
                 String myType = getSchema().getName();
 

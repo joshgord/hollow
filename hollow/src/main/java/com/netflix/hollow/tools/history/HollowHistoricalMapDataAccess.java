@@ -84,7 +84,7 @@ public class HollowHistoricalMapDataAccess extends HollowHistoricalTypeDataAcces
         
         ordinal = ordinalRemap.get(ordinal);
         
-        HollowMapTypeReadState removedRecords = (HollowMapTypeReadState)getRemovedRecords();
+        HollowMapTypeReadState removedRecords = (HollowMapTypeReadState)this.removedRecords;
 
         int hashTableSize = HashCodes.hashTableSize(removedRecords.size(ordinal));
         int hash = SetMapKeyHasher.hash(hashKey, keyMatcher.getFieldTypes());

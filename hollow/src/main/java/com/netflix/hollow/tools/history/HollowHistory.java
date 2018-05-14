@@ -130,7 +130,7 @@ public class HollowHistory {
      * @return An array of each historical state.
      */
     public HollowHistoricalState[] getHistoricalStates() {
-        return historicalStates.toArray(new HollowHistoricalState[historicalStates.size()]);
+        return historicalStates.toArray(new HollowHistoricalState[0]);
     }
 
     /**
@@ -314,7 +314,7 @@ public class HollowHistory {
         return keyOrdinalMapping;
     }
 
-    private int countUnmatchedOrdinals(BitSet ordinals, OrdinalIdentityTranslator translator) {
+    private static int countUnmatchedOrdinals(BitSet ordinals, OrdinalIdentityTranslator translator) {
         int count = 0;
         int ordinal = ordinals.nextSetBit(0);
         while(ordinal != -1) {

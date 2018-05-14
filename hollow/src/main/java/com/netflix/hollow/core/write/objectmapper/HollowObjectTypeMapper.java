@@ -194,7 +194,7 @@ public class HollowObjectTypeMapper extends HollowTypeMapper {
         int[][] primaryKeyFieldPathIdx = this.primaryKeyFieldPathIdx;
         
         if(primaryKeyFieldPathIdx == null) {
-            primaryKeyFieldPathIdx = calculatePrimaryKeyFieldPathIdx(primaryKeyFieldPathIdx);
+            primaryKeyFieldPathIdx = calculatePrimaryKeyFieldPathIdx();
             this.primaryKeyFieldPathIdx = primaryKeyFieldPathIdx;
         }
         
@@ -207,13 +207,13 @@ public class HollowObjectTypeMapper extends HollowTypeMapper {
         return key;
     }
 
-    private int[][] calculatePrimaryKeyFieldPathIdx(int[][] primaryKeyFieldPathIdx) {
+    private int[][] calculatePrimaryKeyFieldPathIdx() {
         if(schema.getPrimaryKey() == null)
             throw new IllegalArgumentException("Type " + typeName + " does not have a primary key defined");
+
+        int[][] primaryKeyFieldPathIdx = new int[schema.getPrimaryKey().numFields()][];
         
-        primaryKeyFieldPathIdx = new int[schema.getPrimaryKey().numFields()][];
-        
-        for(int i=0;i<primaryKeyFieldPathIdx.length;i++)
+        for(int i=0;i< primaryKeyFieldPathIdx.length;i++)
             primaryKeyFieldPathIdx[i] = schema.getPrimaryKey().getFieldPathIndex(parentMapper.getStateEngine(), i);
         
         return primaryKeyFieldPathIdx;

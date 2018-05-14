@@ -89,7 +89,7 @@ public class HollowPOJOClassGenerator implements HollowJavaFileGenerator {
         classBodyBuilder.append("@SuppressWarnings(\"all\")\n");
         classBodyBuilder.append("@HollowTypeName(name=\"").append(schema.getName()).append("\")\n");
         generateHollowPrimaryKeyAnnotation(classBodyBuilder);
-        classBodyBuilder.append("public class ").append(getClassName()).append(" implements Cloneable {\n");
+      classBodyBuilder.append("public class ").append(className).append(" implements Cloneable {\n");
 
         generateInstanceVariables(classBodyBuilder);
         classBodyBuilder.append("\n");
@@ -161,8 +161,8 @@ public class HollowPOJOClassGenerator implements HollowJavaFileGenerator {
             return;
         }
         // don't allow no-arg constructors if we have a primary key
-        classBodyBuilder.append("    private ").append(getClassName()).append("() {}\n\n");
-        classBodyBuilder.append("    public ").append(getClassName()).append("(");
+      classBodyBuilder.append("    private ").append(className).append("() {}\n\n");
+      classBodyBuilder.append("    public ").append(className).append("(");
         // classBodyBuilder.append("        this.").append(.fieldType
         for (int i = 0; i < primaryKey.numFields(); i++) {
             if (i > 0) {
@@ -182,7 +182,7 @@ public class HollowPOJOClassGenerator implements HollowJavaFileGenerator {
 
     private void generateChainableSetters(StringBuilder classBodyBuilder) {
         for (int i = 0; i < schema.numFields(); i++) {
-            classBodyBuilder.append("    public ").append(getClassName()).append(" set")
+          classBodyBuilder.append("    public ").append(className).append(" set")
                 .append(uppercase(getFieldName(i))).append("(")
                 .append(fieldType(i)).append(" ").append(getFieldName(i)).append(") {\n");
             classBodyBuilder.append("        this.").append(getFieldName(i)).append(" = ")
@@ -206,7 +206,7 @@ public class HollowPOJOClassGenerator implements HollowJavaFileGenerator {
                 Class fieldImplementationType = referencedSchema instanceof HollowListSchema
                     ? ArrayList.class : HashSet.class;
                 importClasses.add(fieldImplementationType);
-                classBodyBuilder.append("    public ").append(getClassName()).append(" addTo")
+              classBodyBuilder.append("    public ").append(className).append(" addTo")
                     .append(uppercase(getFieldName(i))).append("(")
                     .append(elementType).append(" ").append(lowercase(elementType)).append(") {\n");
                 classBodyBuilder.append("        if (this.").append(getFieldName(i)).append(" == null) {\n");
@@ -224,9 +224,9 @@ public class HollowPOJOClassGenerator implements HollowJavaFileGenerator {
     private void generateEqualsMethod(StringBuilder classBodyBuilder) {
         classBodyBuilder.append("    public boolean equals(Object other) {\n");
         classBodyBuilder.append("        if (other == this)  return true;\n");
-        classBodyBuilder.append("        if (!(other instanceof ").append(getClassName()).append("))\n");
+      classBodyBuilder.append("        if (!(other instanceof ").append(className).append("))\n");
         classBodyBuilder.append("            return false;\n\n");
-        classBodyBuilder.append("        ").append(getClassName()).append(" o = (").append(getClassName()).append(") other;\n");
+      classBodyBuilder.append("        ").append(className).append(" o = (").append(className).append(") other;\n");
         for(int i=0;i<schema.numFields();i++) {
             switch(schema.getFieldType(i)) {
                 case BOOLEAN:
@@ -261,31 +261,39 @@ public class HollowPOJOClassGenerator implements HollowJavaFileGenerator {
             String fieldName = getFieldName(i);
             switch (schema.getFieldType(i)) {
                 case BOOLEAN:
-                    classBodyBuilder.append("        hashCode = hashCode * 31 + (" + fieldName + "? 1231 : 1237);\n");
+                    classBodyBuilder.append("        hashCode = hashCode * 31 + (")
+                        .append(fieldName).append("? 1231 : 1237);\n");
                     break;
                 case DOUBLE:
                     if (!tempExists)
                         classBodyBuilder.append("        long temp;\n");
-                    classBodyBuilder.append("        temp = java.lang.Double.doubleToLongBits(" + fieldName + ")\n");
+                    classBodyBuilder.append("        temp = java.lang.Double.doubleToLongBits(")
+                        .append(fieldName).append(")\n");
                     classBodyBuilder.append("        hashCode = hashCode * 31 + (int) (temp ^ (temp >>> 32));\n");
                     break;
                 case FLOAT:
-                    classBodyBuilder.append("        hashCode = hashCode * 31 + java.lang.Float.floatToIntBits(" + fieldName + ");\n");
+                    classBodyBuilder.append(
+                        "        hashCode = hashCode * 31 + java.lang.Float.floatToIntBits(")
+                        .append(fieldName).append(");\n");
                     break;
                 case INT:
-                    classBodyBuilder.append("        hashCode = hashCode * 31 + " + fieldName + ";\n");
+                    classBodyBuilder.append("        hashCode = hashCode * 31 + ").append(fieldName)
+                        .append(";\n");
                     break;
                 case LONG:
-                    classBodyBuilder.append("        hashCode = hashCode * 31 + (int) (" + fieldName + " ^ ("+ fieldName + " >>> 32));\n");
+                    classBodyBuilder.append("        hashCode = hashCode * 31 + (int) (")
+                        .append(fieldName).append(" ^ (").append(fieldName).append(" >>> 32));\n");
                     break;
                 case BYTES:
                 case STRING:
                     importClasses.add(Objects.class);
-                    classBodyBuilder.append("        hashCode = hashCode * 31 + Objects.hash(" + fieldName + ");\n");
+                    classBodyBuilder.append("        hashCode = hashCode * 31 + Objects.hash(")
+                        .append(fieldName).append(");\n");
                     break;
                 case REFERENCE:
                     importClasses.add(Objects.class);
-                    classBodyBuilder.append("        hashCode = hashCode * 31 + Objects.hash(" + fieldName + ");\n");
+                    classBodyBuilder.append("        hashCode = hashCode * 31 + Objects.hash(")
+                        .append(fieldName).append(");\n");
                     break;
             }
         }
@@ -295,7 +303,8 @@ public class HollowPOJOClassGenerator implements HollowJavaFileGenerator {
 
     private void generateToStringMethod(StringBuilder classBodyBuilder) {
         classBodyBuilder.append("    public String toString() {\n");
-        classBodyBuilder.append("        StringBuilder builder = new StringBuilder(\"").append(getClassName()).append("{\");\n");
+      classBodyBuilder.append("        StringBuilder builder = new StringBuilder(\"").append(
+          className).append("{\");\n");
         for (int i=0;i<schema.numFields();i++) {
             classBodyBuilder.append("        builder.append(\"");
             if (i > 0)
@@ -308,10 +317,10 @@ public class HollowPOJOClassGenerator implements HollowJavaFileGenerator {
     }
 
     private void generateCloneMethod(StringBuilder classBodyBuilder) {
-        classBodyBuilder.append("    public ").append(getClassName()).append(" clone() {\n");
+      classBodyBuilder.append("    public ").append(className).append(" clone() {\n");
         classBodyBuilder.append("        try {\n");
-        classBodyBuilder.append("            ").append(getClassName())
-            .append(" clone = (" + getClassName() + ") super.clone();\n");
+      classBodyBuilder.append("            ").append(className).append(" clone = (")
+          .append(className).append(") super.clone();\n");
         if (memoizeOrdinal) {
             classBodyBuilder.append("            clone.__assigned_ordinal = -1;\n");
         }

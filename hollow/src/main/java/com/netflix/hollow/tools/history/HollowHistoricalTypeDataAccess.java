@@ -17,7 +17,6 @@
  */
 package com.netflix.hollow.tools.history;
 
-import com.netflix.hollow.api.client.StackTraceRecorder;
 import com.netflix.hollow.api.sampling.DisabledSampler;
 import com.netflix.hollow.api.sampling.HollowSampler;
 import com.netflix.hollow.api.sampling.HollowSamplingDirector;
@@ -84,14 +83,6 @@ public abstract class HollowHistoricalTypeDataAccess implements HollowTypeDataAc
     @Override
     public HollowSampler getSampler() {
         return DisabledSampler.getInstance();
-    }
-
-    HollowTypeReadState getRemovedRecords() {
-        return removedRecords;
-    }
-
-    IntMap getOrdinalRemap() {
-        return ordinalRemap;
     }
 
 }

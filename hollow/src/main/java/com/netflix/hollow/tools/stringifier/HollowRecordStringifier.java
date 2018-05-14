@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,9 +62,7 @@ public class HollowRecordStringifier implements HollowStringifier<HollowRecordSt
 
     @Override
     public HollowRecordStringifier addExcludeObjectTypes(String... types) {
-        for (String type : types) {
-            this.excludeObjectTypes.add(type);
-        }
+      Collections.addAll(this.excludeObjectTypes, types);
         return this;
     }
 
@@ -106,7 +105,7 @@ public class HollowRecordStringifier implements HollowStringifier<HollowRecordSt
         HollowTypeDataAccess typeDataAccess = dataAccess.getTypeDataAccess(type);
 
         if(typeDataAccess == null) {
-            writer.append("[missing type " + type + "]");
+            writer.append("[missing type ").append(type).append("]");
         } else if (ordinal == -1) {
             writer.append("null");
         } else {
@@ -204,7 +203,7 @@ public class HollowRecordStringifier implements HollowStringifier<HollowRecordSt
             int elementOrdinal = typeDataAccess.getElementOrdinal(ordinal, i);
 
             appendIndentation(writer, indentation);
-            writer.append("e" + i + ": ");
+            writer.append("e").append(String.valueOf(i)).append(": ");
 
             appendStringify(writer, dataAccess, elementType, elementOrdinal, indentation);
         }
@@ -275,7 +274,7 @@ public class HollowRecordStringifier implements HollowStringifier<HollowRecordSt
         }
     }
 
-    private void appendIndentation(Writer writer, int indentation) throws IOException {
+    private static void appendIndentation(Writer writer, int indentation) throws IOException {
         for(int i=0;i<indentation;i++) {
             writer.append(INDENT);
         }
