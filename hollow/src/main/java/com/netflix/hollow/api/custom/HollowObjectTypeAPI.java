@@ -41,14 +41,12 @@ public abstract class HollowObjectTypeAPI extends HollowTypeAPI {
     protected final String fieldNames[];
     protected final int fieldIndex[];
 
-    protected final HollowObjectSampler boxedFieldAccessSampler;
+    protected final HollowObjectSampler boxedFieldAccessSampler = new HollowObjectSampler(null, DisabledSamplingDirector.INSTANCE);
 
     protected HollowObjectTypeAPI(HollowAPI api, HollowObjectTypeDataAccess typeDataAccess, String fieldNames[]) {
         super(api, typeDataAccess);
         this.fieldNames = fieldNames;
         this.fieldIndex = new int[fieldNames.length];
-
-        HollowObjectSampler boxedFieldAccessSampler = HollowObjectSampler.NULL_SAMPLER;
 
         if(!(typeDataAccess instanceof HollowObjectMissingDataAccess)) {
             HollowObjectSchema schema = typeDataAccess.getSchema();
@@ -56,13 +54,9 @@ public abstract class HollowObjectTypeAPI extends HollowTypeAPI {
                 int fieldPosition = schema.getPosition(fieldNames[i]);
                 fieldIndex[i] = fieldPosition;
             }
-
-            boxedFieldAccessSampler = new HollowObjectSampler(schema, DisabledSamplingDirector.INSTANCE);
         } else {
             Arrays.fill(fieldIndex, -1);
         }
-
-        this.boxedFieldAccessSampler = boxedFieldAccessSampler;
     }
 
     @Override
@@ -80,14 +74,12 @@ public abstract class HollowObjectTypeAPI extends HollowTypeAPI {
 
     @Override
     public void setSamplingDirector(HollowSamplingDirector samplingDirector) {
-        super.setSamplingDirector(samplingDirector);
-        boxedFieldAccessSampler.setSamplingDirector(samplingDirector);
+
     }
     
     @Override
     public void setFieldSpecificSamplingDirector(HollowFilterConfig fieldSpec, HollowSamplingDirector director) {
-        super.setFieldSpecificSamplingDirector(fieldSpec, director);
-        boxedFieldAccessSampler.setFieldSpecificSamplingDirector(fieldSpec, director);
+
     }
     
     @Override
