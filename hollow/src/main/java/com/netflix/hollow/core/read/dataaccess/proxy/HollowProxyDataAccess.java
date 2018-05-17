@@ -52,7 +52,7 @@ public class HollowProxyDataAccess implements HollowDataAccess {
     private final ConcurrentHashMap<String, HollowTypeProxyDataAccess> typeDataAccessMap;
 
     public HollowProxyDataAccess() {
-        this.typeDataAccessMap = new ConcurrentHashMap<String, HollowTypeProxyDataAccess>();
+        this.typeDataAccessMap = new ConcurrentHashMap<>();
     }
 
     public void setDataAccess(HollowDataAccess currentDataAccess) {
@@ -61,39 +61,22 @@ public class HollowProxyDataAccess implements HollowDataAccess {
             HollowTypeDataAccess typeDataAccess = currentDataAccess.getTypeDataAccess(type);
             HollowTypeProxyDataAccess proxyDataAccess = typeDataAccessMap.get(type);
 
-            if(proxyDataAccess == null) {
-                if(typeDataAccess instanceof HollowObjectTypeDataAccess) {
-                    proxyDataAccess = new HollowObjectProxyDataAccess(this);
-                } else if(typeDataAccess instanceof HollowListTypeDataAccess) {
-                    proxyDataAccess = new HollowListProxyDataAccess(this);
-                } else if(typeDataAccess instanceof HollowSetTypeDataAccess) {
-                    proxyDataAccess = new HollowSetProxyDataAccess(this);
-                } else if(typeDataAccess instanceof HollowMapTypeDataAccess) {
-                    proxyDataAccess = new HollowMapProxyDataAccess(this);
-                }
-
-                typeDataAccessMap.put(type, proxyDataAccess);
+            if(typeDataAccess instanceof HollowObjectTypeDataAccess) {
+                proxyDataAccess = new HollowObjectProxyDataAccess(this, (HollowObjectTypeDataAccess) typeDataAccess);
+            } else if(typeDataAccess instanceof HollowListTypeDataAccess) {
+                proxyDataAccess = new HollowListProxyDataAccess(this, (HollowListTypeDataAccess) typeDataAccess);
+            } else if(typeDataAccess instanceof HollowSetTypeDataAccess) {
+                proxyDataAccess = new HollowSetProxyDataAccess(this, (HollowSetTypeDataAccess) typeDataAccess);
+            } else if(typeDataAccess instanceof HollowMapTypeDataAccess) {
+                proxyDataAccess = new HollowMapProxyDataAccess(this, (HollowMapTypeDataAccess) typeDataAccess);
             }
 
-            proxyDataAccess.setCurrentDataAccess(typeDataAccess);
+            typeDataAccessMap.put(type, proxyDataAccess);
         }
     }
 
     public void disableDataAccess() {
-        this.currentDataAccess = HollowDisabledDataAccess.INSTANCE;
-        for(Map.Entry<String, HollowTypeProxyDataAccess> entry : typeDataAccessMap.entrySet()) {
-            HollowTypeProxyDataAccess proxy = entry.getValue();
-            if(proxy instanceof HollowObjectProxyDataAccess) {
-                proxy.setCurrentDataAccess(HollowObjectDisabledDataAccess.INSTANCE);
-            } else if(proxy instanceof HollowListProxyDataAccess) {
-                proxy.setCurrentDataAccess(HollowListDisabledDataAccess.INSTANCE);
-            } else if(proxy instanceof HollowSetProxyDataAccess) {
-                proxy.setCurrentDataAccess(HollowSetDisabledDataAccess.INSTANCE);
-            } else if(proxy instanceof HollowMapProxyDataAccess) {
-                proxy.setCurrentDataAccess(HollowMapDisabledDataAccess.INSTANCE);
-            }
 
-        }
     }
 
     @Override

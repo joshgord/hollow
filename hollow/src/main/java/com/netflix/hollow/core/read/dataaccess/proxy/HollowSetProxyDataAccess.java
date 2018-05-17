@@ -26,22 +26,18 @@ import com.netflix.hollow.core.schema.HollowSetSchema;
 
 /**
  * A {@link HollowTypeProxyDataAccess} for a SET type.
- * 
+ *
  * @see HollowProxyDataAccess
  */
-public class HollowSetProxyDataAccess extends HollowTypeProxyDataAccess implements HollowSetTypeDataAccess{
+public class HollowSetProxyDataAccess extends HollowTypeProxyDataAccess<HollowSetTypeDataAccess> implements HollowSetTypeDataAccess{
 
-    public HollowSetProxyDataAccess(HollowProxyDataAccess dataAccess) {
-        super(dataAccess);
-    }
-
-    public void setCurrentDataAccess(HollowTypeDataAccess currentDataAccess) {
-        this.currentDataAccess = currentDataAccess;
+    public HollowSetProxyDataAccess(HollowProxyDataAccess dataAccess, HollowSetTypeDataAccess currentDataAccess) {
+        super(dataAccess, currentDataAccess);
     }
 
     @Override
     public int size(int ordinal) {
-        return ((HollowSetTypeDataAccess) currentDataAccess).size(ordinal);
+        return currentDataAccess.size(ordinal);
     }
 
     @Override
@@ -51,32 +47,31 @@ public class HollowSetProxyDataAccess extends HollowTypeProxyDataAccess implemen
 
     @Override
     public HollowSetSchema getSchema() {
-        return ((HollowSetTypeDataAccess) currentDataAccess).getSchema();
+        return currentDataAccess.getSchema();
     }
 
     @Override
     public boolean contains(int ordinal, int value) {
-        return ((HollowSetTypeDataAccess) currentDataAccess).contains(ordinal, value);
+        return currentDataAccess.contains(ordinal, value);
     }
 
     @Override
     public boolean contains(int ordinal, int value, int hashCode) {
-        return ((HollowSetTypeDataAccess) currentDataAccess).contains(ordinal, value, hashCode);
+        return currentDataAccess.contains(ordinal, value, hashCode);
     }
 
     @Override
     public int findElement(int ordinal, Object... hashKey) {
-        return ((HollowSetTypeDataAccess) currentDataAccess).findElement(ordinal, hashKey);
+        return currentDataAccess.findElement(ordinal, hashKey);
     }
-    
+
     @Override
     public int relativeBucketValue(int ordinal, int bucketIndex) {
-        return ((HollowSetTypeDataAccess) currentDataAccess).relativeBucketValue(ordinal, bucketIndex);
+        return currentDataAccess.relativeBucketValue(ordinal, bucketIndex);
     }
 
     @Override
     public HollowOrdinalIterator potentialMatchOrdinalIterator(int ordinal, int hashCode) {
         return new PotentialMatchHollowSetOrdinalIterator(ordinal, this, hashCode);
     }
-
 }

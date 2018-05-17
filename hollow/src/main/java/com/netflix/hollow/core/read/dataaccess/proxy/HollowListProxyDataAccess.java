@@ -18,6 +18,7 @@
 package com.netflix.hollow.core.read.dataaccess.proxy;
 
 import com.netflix.hollow.core.read.dataaccess.HollowListTypeDataAccess;
+import com.netflix.hollow.core.read.dataaccess.HollowTypeDataAccess;
 import com.netflix.hollow.core.read.iterator.HollowListOrdinalIterator;
 import com.netflix.hollow.core.read.iterator.HollowOrdinalIterator;
 import com.netflix.hollow.core.schema.HollowListSchema;
@@ -27,15 +28,15 @@ import com.netflix.hollow.core.schema.HollowListSchema;
  * 
  * @see HollowProxyDataAccess
  */
-public class HollowListProxyDataAccess extends HollowTypeProxyDataAccess implements HollowListTypeDataAccess {
+public class HollowListProxyDataAccess extends HollowTypeProxyDataAccess<HollowListTypeDataAccess> implements HollowListTypeDataAccess {
 
-    public HollowListProxyDataAccess(HollowProxyDataAccess dataAccess) {
-        super(dataAccess);
+    public HollowListProxyDataAccess(HollowProxyDataAccess dataAccess, HollowListTypeDataAccess currentDataAccess) {
+        super(dataAccess, currentDataAccess);
     }
 
     @Override
     public int size(int ordinal) {
-        return ((HollowListTypeDataAccess) currentDataAccess).size(ordinal);
+        return currentDataAccess.size(ordinal);
     }
 
     @Override
@@ -45,11 +46,11 @@ public class HollowListProxyDataAccess extends HollowTypeProxyDataAccess impleme
 
     @Override
     public HollowListSchema getSchema() {
-        return ((HollowListTypeDataAccess) currentDataAccess).getSchema();
+        return currentDataAccess.getSchema();
     }
 
     @Override
     public int getElementOrdinal(int ordinal, int listIndex) {
-        return ((HollowListTypeDataAccess) currentDataAccess).getElementOrdinal(ordinal, listIndex);
+        return currentDataAccess.getElementOrdinal(ordinal, listIndex);
     }
 }

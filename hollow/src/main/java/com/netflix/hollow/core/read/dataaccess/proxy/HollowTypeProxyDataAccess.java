@@ -30,17 +30,15 @@ import com.netflix.hollow.core.read.filter.HollowFilterConfig;
  * 
  * @see HollowProxyDataAccess
  */
-public abstract class HollowTypeProxyDataAccess implements HollowTypeDataAccess {
+public abstract class HollowTypeProxyDataAccess<T extends HollowTypeDataAccess> implements HollowTypeDataAccess {
 
     protected final HollowProxyDataAccess dataAccess;
-    protected HollowTypeDataAccess currentDataAccess;
 
-    public HollowTypeProxyDataAccess(HollowProxyDataAccess dataAccess) {
+    protected final T currentDataAccess;
+
+    public HollowTypeProxyDataAccess(HollowProxyDataAccess dataAccess, T currentDataAccess) {
         this.dataAccess = dataAccess;
-    }
-
-    public void setCurrentDataAccess(HollowTypeDataAccess typeDataAccess) {
-        this.currentDataAccess = typeDataAccess;
+        this.currentDataAccess = currentDataAccess;
     }
 
     @Override

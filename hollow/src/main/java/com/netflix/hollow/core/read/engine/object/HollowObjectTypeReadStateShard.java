@@ -157,13 +157,10 @@ class HollowObjectTypeReadStateShard {
         return value == 1 ? Boolean.TRUE : Boolean.FALSE;
     }
 
-    private long readFixedLengthFieldValue(HollowObjectTypeDataElements currentData, int ordinal, int fieldIndex) {
+    private static long readFixedLengthFieldValue(HollowObjectTypeDataElements currentData, int ordinal, int fieldIndex) {
         long bitOffset = fieldOffset(currentData, ordinal, fieldIndex);
         int numBitsForField = currentData.bitsPerField[fieldIndex];
-
-        long value = currentData.fixedLengthData.getElementValue(bitOffset, numBitsForField);
-
-        return value;
+        return currentData.fixedLengthData.getElementValue(bitOffset, numBitsForField);
     }
 
     public byte[] readBytes(int ordinal, int fieldIndex) {
@@ -305,16 +302,9 @@ class HollowObjectTypeReadStateShard {
         return ((long)currentData.bitsPerRecord * ordinal) + currentData.bitOffsetPerField[fieldIndex];
     }
 
-    /**
-     * Decode a String as a series of VarInts, one per character.<p>
-     *
-     * @param str
-     * @param out
-     * @return
-     */
     private static final ThreadLocal<char[]> chararr = new ThreadLocal<char[]>();
 
-    private String readString(ByteData data, long position, int length) {
+    private static String readString(ByteData data, long position, int length) {
         long endPosition = position + length;
 
         char chararr[] = getCharArray();
